@@ -1,0 +1,15 @@
+{
+  "name": "WPC Demo API",
+  "version": "0.0.1",
+  "description": "These api are used for WPC Demo",
+  "title": "WPC Demo API",
+  "url" : "https://wpc.consructing.com",
+  "header": {
+    "title": "How to Use",
+    "filename": "header.md"
+  },
+  "template": {
+    "withCompare": true,
+    "withGenerator": true
+  }
+}
