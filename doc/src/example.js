@@ -10,17 +10,21 @@
  * @apiName PostUser
  * @apiGroup User
  *
- * @apiDescription 建立新用戶
+ * @apiDescription 建立新用戶, company+firstname+lastname是唯一
  *
- * @apiParam {String} name 用戶姓名
- * @apiParam {String} email 用戶Email
- * @apiParam {String} company 用戶公司名稱
- * @apiParam {String} mobile  用戶手機號碼
- *
+ * @apiParam {String}   firstname    用戶名(必填)
+ * @apiParam {String}   lastname     用戶姓(必填)
+ * @apiParam {String}   email       用戶email(必填)
+ * @apiParam {String}   company     用戶公司名稱
+ * @apiParam {String}   mobile      用戶手機號碼
+ ** @apiParam {String}  extend1     自訂資料1
+ * @apiParam  {String}  extend2     自訂資料2
+
  * @apiSuccess {Number} code  錯誤代碼
  *                 0:SUCCESS(成功)
  *                 1:INVALID_PARAMETERS(參數缺少或錯誤)
- *                 2:USER_EXIST(用戶(Email)已存在)
+ *                 2:USER_EXIST(用戶已存在)
+ *                 5:OPERATION_FAIL(建立失敗)
  * @apiSuccess {String} message  錯誤訊息
  * @apiSuccess {String} id   用戶ID (若是成功建立)
  *
@@ -33,11 +37,11 @@
   * @apiName GetUser
   * @apiGroup User
   *
-  * @apiDescription 使用用戶的ID,Email或Mobile其中之一來取得用戶資訊，參數三種至少要有一種
+  * @apiDescription 使用用戶的ID,email或mobile其中之一來取得用戶資訊，參數三種至少要有一種
   *
   * @apiParam {String} id  用戶 ID
-  * @apiParam {String} email 用戶 Email
-  * @apiParam {String} mobile 用戶 Mobile
+  * @apiParam {String} email 用戶 email
+  * @apiParam {String} mobile 用戶 mobile
   *
   * @apiSuccess {Number} code  錯誤代碼
   *                 0:SUCCESS(成功)
@@ -83,7 +87,7 @@
   function updateUserCheck() { return; }
 
  /**
-  * @api {post} /api/user/image  更新用戶圖片
+  * @api {post} /api/user/updateImage  更新用戶圖片
   * @apiVersion 0.0.1
   * @apiName UpdateUserImage
   * @apiGroup User
@@ -112,7 +116,7 @@ function updateUserImage() { return; }
    *
    * @apiParam {String} id  用戶 ID
    * @apiParam {String} name 用戶姓名
-   * @apiParam {String} email 用戶Email
+   * @apiParam {String} email 用戶email
    * @apiParam {String} company 用戶公司名稱
    * @apiParam {String} mobile  用戶手機號碼
    * @apiParam {String} registered 用戶是否已經簽到

@@ -9,10 +9,12 @@ import (
 func main() {
 	router := gin.Default()
 
-	v1 := router.Group("/v1")
+	v1 := router.Group("/api")
 	{
-		user := new(controllers.UserController)
-		v1.POST("/movies", movie.Create)
+		userController := new(controllers.UserController)
+		v1.POST("/user/create", userController.Create)
+		v1.POST("/user/delete", userController.Delete)
+		v1.POST("/user/updateImage", userController.UpdateImage)
 
 	}
 
@@ -20,5 +22,5 @@ func main() {
 		c.String(http.StatusNotFound, "Not Found")
 	})
 
-	router.Run()
+	router.Run(":9741")
 }

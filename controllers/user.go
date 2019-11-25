@@ -4,34 +4,40 @@ import (
 	"fmt"
 	"goWPC/forms"
 	"goWPC/models"
-
 	"github.com/gin-gonic/gin"
 )
 
-var movieModel = new(models.MovieModel)
+var userModel = new(models.UserModel)
 
-type MovieController struct{}
+type UserController struct{}
 
-func (movie *MovieController) Create(c *gin.Context) {
-	var data forms.CreateMovieCommand
+func (user *UserController) Create(c *gin.Context) {
+	var data forms.CreateUserCommand
 	if c.BindJSON(&data) != nil {
-		c.JSON(406, gin.H{"message": "Invalid form", "form": data})
+		c.JSON(406, gin.H{"code":1, "message": "INVALID_PARAMETERS"})
 		c.Abort()
 		return
 	}
 
-	err := movieModel.Create(data)
+	_, err := userModel.GetByName(data.FirstName, data.LastName,data.Company)
+	fmt.Println("get by name err:>", err)
+	if err == nil {
+		c.JSON(406, gin.H{"code":2, "message": "USER_EXIST"})
+		c.Abort()
+		return
+	}
+
+	id,err := userModel.Create(data)
 	if err != nil {
-		c.JSON(406, gin.H{"message": "Movie could not be created", "error": err.Error()})
+		c.JSON(406, gin.H{"code":5, "message": "OPERATION_FAIL"})
 		c.Abort()
 		return
 	}
-
-	c.JSON(200, gin.H{"message": "Movie Created"})
+	c.JSON(200, gin.H{"code":0, "message": "SUCCESS","id":id})
 }
 
-func (movie *MovieController) Find(c *gin.Context) {
-	list, err := movieModel.Find()
+func (user *UserController) Find(c *gin.Context) {
+	list, err := userModel.Find()
 	if err != nil {
 		c.JSON(404, gin.H{"message": "Find Error", "error": err.Error()})
 		c.Abort()
@@ -40,43 +46,63 @@ func (movie *MovieController) Find(c *gin.Context) {
 	}
 }
 
-func (movie *MovieController) Get(c *gin.Context) {
+func (user *UserController) Get(c *gin.Context) {
 	id := c.Param("id")
-	profile, err := movieModel.Get(id)
+	profile, err := userModel.Get(id)
 	if err != nil {
-		c.JSON(404, gin.H{"message": "Movie not found", "error": err.Error()})
+		c.JSON(404, gin.H{"message": "User not found", "error": err.Error()})
 		c.Abort()
 	} else {
 		c.JSON(200, gin.H{"data": profile})
 	}
 }
 
-func (movie *MovieController) Update(c *gin.Context) {
+func (user *UserController) Update(c *gin.Context) {
 	id := c.Param("id")
-	data := forms.UpdateMovieCommand{}
+	data := forms.UpdateUserCommand{}
 
 	if c.BindJSON(&data) != nil {
 		c.JSON(406, gin.H{"message": "Invalid Parameters"})
 		c.Abort()
 		return
 	}
-	err := movieModel.Update(id, data)
+	err := userModel.Update(id, data)
 	if err != nil {
-		c.JSON(406, gin.H{"message": "Movie Could Not Be Updated", "error": err.Error()})
+		c.JSON(406, gin.H{"message": "User Could Not Be Updated", "error": err.Error()})
 		c.Abort()
 		return
 	}
-	c.JSON(200, gin.H{"message": "Movie Updated"})
+	c.JSON(200, gin.H{"message": "User Updated"})
 }
 
-func (movie *MovieController) Delete(c *gin.Context) {
-	id := c.Param("id")
-	fmt.Println(id)
-	err := movieModel.Delete(id)
-	if err != nil {
-		c.JSON(406, gin.H{"message": "Movie Could Not Be Deleted", "error": err.Error()})
+func (user *UserController) Delete(c *gin.Context) {
+	var data forms.DeleteUserCommand
+	if c.BindJSON(&data) != nil {
+		c.JSON(406, gin.H{"code":1, "message": "INVALID_PARAMETERS"})
 		c.Abort()
 		return
 	}
-	c.JSON(200, gin.H{"message": "Movie Deleted"})
+	err := userModel.Delete(data.ID)
+	if err != nil {
+		c.JSON(406, gin.H{"code":5, "message": "OPERATION_FAIL"})
+		c.Abort()
+		return
+	}
+	c.JSON(200, gin.H{"code":0, "message": "SUCCESS"})
+}
+
+func (user *UserController) UpdateImage(c *gin.Context) {
+	var data forms.UpdateUserImageCommand
+	if c.BindJSON(&data) != nil {
+		c.JSON(406, gin.H{"code":1, "message": "INVALID_PARAMETERS"})
+		c.Abort()
+		return
+	}
+	err := userModel.UpdateImage(data)
+	if err != nil {
+		c.JSON(406, gin.H{"code":5, "message": "OPERATION_FAIL"})
+		c.Abort()
+		return
+	}
+	c.JSON(200, gin.H{"code":0, "message": "SUCCESS"})
 }
