@@ -65,7 +65,7 @@ func deleteUser(id string ) (response string){
 func createUser(firstname string, lastname string, company string,
         email string ,mobile string ,extend1 string,extend2 string ) (response string){
         s := fmt.Sprintf("{\"firstname\":\"%s\",\"lastname\":\"%s\",\"company\":\"%s\",\"email\":\"%s\",\"mobile\":\"%s\", \"extend1\":\"%s\",\"extend2\":\"%s\"}",
-                  firstname,lastname,company,email,mobile)
+                  firstname,lastname,company,email,mobile,extend1,extend2)
           fmt.Println("Create Response:>",s )
         var jsonStr = []byte(s);
         url := "http://127.0.0.1:9741/api/user/create"
@@ -96,6 +96,9 @@ func frsCreateUser(sessionId string, id string,file string) (response string){
         return callAPI(url,jsonStr);
 }
 
+
+
+
 func frsVerify(sessionId string,file string) (response string){
         f, _ := os.Open(file)
         reader := bufio.NewReader(f)
@@ -122,8 +125,31 @@ func updateImage(id string, file string) (response string){
   url := "http://127.0.0.1:9741/api/user/updateImage"
   return callAPI(url,jsonStr);
 }
+
+func verifyImage( threshold float64, max int, file string) (response string){
+  f, _ := os.Open(file)
+  reader := bufio.NewReader(f)
+  content, _ := ioutil.ReadAll(reader)
+  encoded := base64.StdEncoding.EncodeToString(content)
+//  fmt.Println("ENCODED: " + encoded)
+  s := fmt.Sprintf("{\"threshold\":%f, \"max\":%d, \"image\":\"%s\"}",threshold,max,encoded)
+//  fmt.Println("Create Response:>",s )
+  var jsonStr = []byte(s);
+  url := "http://127.0.0.1:9741/api/fr/verification"
+  return callAPI(url,jsonStr);
+}
 func main() {
 
+    var response  = verifyImage(0.7,1,"./photo1.jpg")
+    var updateImageRes GeneralResponse
+    json.Unmarshal([]byte(response), &updateImageRes)
+    fmt.Printf("Umpage Image User Code : %d Message: %s", updateImageRes.Code, updateImageRes.Message)
+
+    response  = verifyImage(0.7,1,"./photo3.jpg")
+    //var updateImageRes GeneralResponse
+    json.Unmarshal([]byte(response), &updateImageRes)
+    fmt.Printf("Umpage Image User Code : %d Message: %s", updateImageRes.Code, updateImageRes.Message)
+    /*
     var response  = createUser("YoungHwa", "Song", "Advantech","test@gmail.com","09876543","ext1","ext2" );
     fmt.Println("Create Response:>", response)
     var createRes CreateUserResponse
@@ -134,11 +160,29 @@ func main() {
       return
     }
 
-    response  = updateImage(createRes.ID,"./photo1.jpg")
-    var updateImageRes GeneralResponse
-    json.Unmarshal([]byte(response), &updateImageRes)
-    fmt.Printf("Umpage Image User Code : %d Message: %s", updateImageRes.Code, updateImageRes.Message)
+      response  = updateImage(createRes.ID,"./photo1.jpg")
+      var updateImageRes GeneralResponse
+      json.Unmarshal([]byte(response), &updateImageRes)
+      fmt.Printf("Umpage Image User Code : %d Message: %s", updateImageRes.Code, updateImageRes.Message)
 
+    {
+      response  = createUser("YuChio", "Sha", "Cloud","test2@gmail.com","09876543","ext1","ext2" );
+      fmt.Println("Create Response:>", response)
+      var createRes CreateUserResponse
+      json.Unmarshal([]byte(response), &createRes)
+      fmt.Printf("Create User Code : %d ID: %s", createRes.Code, createRes.ID)
+      if createRes.Code != 0 {
+        fmt.Printf("Fail Code : %d Message : %s", createRes.Code, createRes.Message)
+        return
+      }
+
+      response  = updateImage(createRes.ID,"./photo2.jpg")
+      var updateImageRes GeneralResponse
+      json.Unmarshal([]byte(response), &updateImageRes)
+      fmt.Printf("Umpage Image User Code : %d Message: %s", updateImageRes.Code, updateImageRes.Message)
+    }
+    */
+    /*
     response  =  frsLogin("Admin","123456")
     var frsLoginRes FRSLoginResponse
     json.Unmarshal([]byte(response), &frsLoginRes)
@@ -156,12 +200,12 @@ func main() {
           fmt.Printf("Verify Face ID : %s", frsVerifyResponse.VerifyFaceID)
       }
     }
+    */
 
 
-
-  //  response  = deleteUser(createRes.ID)
-  //  var deleateRes GeneralResponse
-  //  json.Unmarshal([]byte(response), &deleateRes)
+    //response  = deleteUser(createRes.ID)
+  ///  var deleateRes GeneralResponse
+    //json.Unmarshal([]byte(response), &deleateRes)
   //  fmt.Printf("Delete User Code : %d Message: %s", deleateRes.Code, deleateRes.Message)
 
     //updateImage("123","./photo1.jpg" )

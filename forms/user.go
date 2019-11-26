@@ -14,8 +14,14 @@ type CreateUserCommand struct {
 type UpdateUserImageCommand struct {
 	ID          string   `json:"id" binding:"required"`
 	Image       string   `json:"image" binding:"required"`
-	FaceID      string   `json:"faceid""`
-	Registered  bool     `json:"registerd"`
+	PersonID      string   `json:"personid""`
+	FaceRegistered  bool     `json:"face_registerd"`
+}
+
+type VerifyImageCommand struct {
+  Threshold   float64   `json:"threshold" binding:"required"`
+	Max         int       `json:"max" binding:"required"`
+	Image       string   `json:"image" binding:"required"`
 }
 
 

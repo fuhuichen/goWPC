@@ -1,23 +1,13 @@
 {
-  "name": "WPC Demo API",
-  "version": "0.0.1",
-  "description": "These api are used for WPC Demo",
-  "title": "WPC Demo API",
-  "url": "https://wpc.consructing.com",
-  "header": {
-    "title": "How to Use",
-    "content": "<h1>How to Use this API</h1>\n<p>API Used For WPC Demo.</p>\n"
-  },
-  "template": {
-    "withCompare": true,
-    "withGenerator": true
-  },
+  "name": "",
+  "version": "0.0.0",
+  "description": "",
   "sampleUrl": false,
   "defaultVersion": "0.0.0",
   "apidoc": "0.3.0",
   "generator": {
     "name": "apidoc",
-    "time": "2019-11-20T02:52:09.479Z",
+    "time": "2019-11-26T06:04:56.256Z",
     "url": "http://apidocjs.com",
     "version": "0.17.7"
   }

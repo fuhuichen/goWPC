@@ -104,7 +104,7 @@
   *                 4:INVALID_IMAGE(圖片格式不符)
   *
   */
-function updateUserImage() { return; }
+function updateUserCheck() { return; }
 
   /**
    * @api {post} /api/user/update  更新用戶資訊
@@ -148,7 +148,25 @@ function updateUserImage() { return; }
 
   function deleteUser() { return; }
 
- function updateUserImage()) { return; }
+  /**
+   * @api {post} /api/user/list 列出使用者
+   * @apiVersion 0.0.1
+   * @apiName listUsers
+   * @apiGroup User
+   * @apiDescription 可以透過關鍵字搜索名字/公司名稱及Email，列出含有字串的使用者,不使用關鍵字則列出全部使用者
+   * @apiParam {String} keyword 關鍵字
+   *
+   * @apiSuccess {Number} code  錯誤代不使用關鍵字則列出全部使用者
+   *                 0:SUCCESS(成功)
+   * @apiSuccess {Object[]} userList  回傳用戶資訊陣列
+   * @apiSuccess   {String}  userList.id
+   * @apiSuccess   {String}  userList.email
+   * @apiSuccess  {String}   userList.name
+   * @apiSuccess  {String}   userList.mobile
+   * @apiSuccess   {String}  userList.imageUrl  用戶圖片url
+   * @apiSuccess   {Boolean} userList.registered 是否已報到
+   */
+   function listUers() { return; }
  /**
   * @api {post} /api/fr/verification 人臉辨識
   * @apiVersion 0.0.1

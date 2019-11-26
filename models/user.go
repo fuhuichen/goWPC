@@ -8,7 +8,7 @@ import (
 )
 
 type User struct {
-	ID           bson.ObjectId `json:"id" bson:"_id,omitempty"`
+	ID           bson.ObjectId  `json:"id" bson:"_id,omitempty"`
 	FirstName    string         `json:firstname`
 	LastName     string         `json:lastname`
 	Email        string         `json:email`
@@ -32,7 +32,7 @@ func (m *UserModel) Create(data forms.CreateUserCommand) (id bson.ObjectId, err 
 	return id,err
 }
 
-func (m *UserModel) Find() (list []User, err error) {
+func (m *UserModel) List() (list []User, err error) {
 	collection := dbConnect.Use("wpc", "users")
 	err = collection.Find(bson.M{}).All(&list)
 	return list, err
@@ -48,6 +48,14 @@ func (m *UserModel) GetByName(
 	return user, err
 }
 
+func (m *UserModel) GetByPersonID(
+		personid string) (user User, err error) {
+	collection := dbConnect.Use("wpc", "users")
+	err = collection.Find(
+		bson.M{"personid":personid}).One(&user)
+	return user, err
+}
+
 func (m *UserModel) Get(id string) (user User, err error) {
 	collection := dbConnect.Use("wpc", "users")
 	err = collection.FindId(bson.ObjectIdHex(id)).One(&user)
@@ -55,9 +63,10 @@ func (m *UserModel) Get(id string) (user User, err error) {
 }
 
 
-func (m *UserModel) UpdateImage( data forms.UpdateUserImageCommand) (err error) {
+func (m *UserModel) UpdateImage( f forms.UpdateUserImageCommand) (err error) {
 	collection := dbConnect.Use("wpc", "users")
-	err = collection.UpdateId(bson.ObjectIdHex(data.ID), data)
+	data := bson.M{"$set": bson.M{"image": f.Image,"personid": f.PersonID, "face_registerd": f.FaceRegistered }}
+	err = collection.UpdateId(bson.ObjectIdHex(f.ID), data)
 	return err
 }
 
