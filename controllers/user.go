@@ -19,7 +19,7 @@ type UserController struct{
 func (user *UserController) Create(c *gin.Context) {
 	var data forms.CreateUserCommand
 	if c.BindJSON(&data) != nil {
-		c.JSON(406, gin.H{"code":1, "message": "INVALID_PARAMETERS"})
+		c.JSON(200, gin.H{"code":1, "message": "INVALID_PARAMETERS"})
 		c.Abort()
 		return
 	}
@@ -27,14 +27,14 @@ func (user *UserController) Create(c *gin.Context) {
 	_, err := userModel.GetByName(data.FirstName, data.LastName,data.Company)
 	fmt.Println("get by name err:>", err)
 	if err == nil {
-		c.JSON(406, gin.H{"code":2, "message": "USER_EXIST"})
+		c.JSON(200, gin.H{"code":2, "message": "USER_EXIST"})
 		c.Abort()
 		return
 	}
 
 	id,err := userModel.Create(data)
 	if err != nil {
-		c.JSON(406, gin.H{"code":5, "message": "OPERATION_FAIL"})
+		c.JSON(200, gin.H{"code":5, "message": "OPERATION_FAIL"})
 		c.Abort()
 		return
 	}
@@ -42,25 +42,31 @@ func (user *UserController) Create(c *gin.Context) {
 }
 
 func (user *UserController) List(c *gin.Context) {
-	list, err := userModel.List()
-
+	var data forms.ListUserCommand
+	c.BindJSON(&data)
+	list, err := userModel.List(data.Keyword)
 	if err != nil {
 		var userList = make([]models.User, 0)
-		c.JSON(404, gin.H{"code":0, "message": "SUCCESS", "userList": userList})
+		c.JSON(200, gin.H{"code":0, "message": "SUCCESS", "userList": userList})
 		c.Abort()
 	} else {
-		c.JSON(404, gin.H{"code":0, "message": "SUCCESS", "userList": list})
+		c.JSON(200, gin.H{"code":0, "message": "SUCCESS", "userList": list})
 	}
 }
 
-func (user *UserController) Get(c *gin.Context) {
-	id := c.Param("id")
-	profile, err := userModel.Get(id)
+func (user *UserController) Find(c *gin.Context) {
+	var data forms.FindUserCommand
+	if c.BindJSON(&data) != nil {
+		c.JSON(200, gin.H{"code":1, "message": "INVALID_PARAMETERS"})
+		c.Abort()
+		return
+	}
+	profile, err := userModel.Get(data.ID)
 	if err != nil {
-		c.JSON(404, gin.H{"message": "User not found", "error": err.Error()})
+		c.JSON(200, gin.H{"code":3, "message": "USER_NOT_EXIST"})
 		c.Abort()
 	} else {
-		c.JSON(200, gin.H{"data": profile})
+		c.JSON(200, gin.H{"code":0, "message": "SUCCESS", "user": profile})
 	}
 }
 
@@ -69,13 +75,13 @@ func (user *UserController) Update(c *gin.Context) {
 	data := forms.UpdateUserCommand{}
 
 	if c.BindJSON(&data) != nil {
-		c.JSON(406, gin.H{"message": "Invalid Parameters"})
+		c.JSON(200, gin.H{"message": "Invalid Parameters"})
 		c.Abort()
 		return
 	}
 	err := userModel.Update(id, data)
 	if err != nil {
-		c.JSON(406, gin.H{"message": "User Could Not Be Updated", "error": err.Error()})
+		c.JSON(200, gin.H{"message": "User Could Not Be Updated", "error": err.Error()})
 		c.Abort()
 		return
 	}
@@ -85,13 +91,13 @@ func (user *UserController) Update(c *gin.Context) {
 func (user *UserController) Delete(c *gin.Context) {
 	var data forms.DeleteUserCommand
 	if c.BindJSON(&data) != nil {
-		c.JSON(406, gin.H{"code":1, "message": "INVALID_PARAMETERS"})
+		c.JSON(200, gin.H{"code":1, "message": "INVALID_PARAMETERS"})
 		c.Abort()
 		return
 	}
 	err := userModel.Delete(data.ID)
 	if err != nil {
-		c.JSON(406, gin.H{"code":5, "message": "OPERATION_FAIL"})
+		c.JSON(200, gin.H{"code":5, "message": "OPERATION_FAIL"})
 		c.Abort()
 		return
 	}
@@ -101,7 +107,7 @@ func (user *UserController) Delete(c *gin.Context) {
 func (user *UserController) UpdateImage(c *gin.Context) {
 	var data forms.UpdateUserImageCommand
 	if c.BindJSON(&data) != nil {
-		c.JSON(406, gin.H{"code":1, "message": "INVALID_PARAMETERS"})
+		c.JSON(200, gin.H{"code":1, "message": "INVALID_PARAMETERS"})
 		c.Abort()
 		return
 	}
@@ -110,7 +116,7 @@ func (user *UserController) UpdateImage(c *gin.Context) {
 	var frsPersonID = frsClient.FrsCreateUser(user.SessionID, data.ID,data.Image)
 	fmt.Println("get person id=", frsPersonID)
 	if  frsPersonID == "" {
-		c.JSON(406, gin.H{"code":4, "message": "INVALID_IMAGE"})
+		c.JSON(200, gin.H{"code":4, "message": "INVALID_IMAGE"})
 		c.Abort()
 		return
 	}
@@ -120,7 +126,7 @@ func (user *UserController) UpdateImage(c *gin.Context) {
 
 	err := userModel.UpdateImage(data)
 	if err != nil {
-		c.JSON(406, gin.H{"code":5, "message": "OPERATION_FAIL"})
+		c.JSON(200, gin.H{"code":5, "message": "OPERATION_FAIL"})
 		c.Abort()
 		return
 	}
@@ -134,7 +140,7 @@ func (user *UserController) VerifyImage(c *gin.Context) {
 	var data forms.VerifyImageCommand
 	if c.BindJSON(&data) != nil {
 		fmt.Println("VerifyImage=", data)
-		c.JSON(406, gin.H{"code":1, "message": "INVALID_PARAMETERS"})
+		c.JSON(200, gin.H{"code":1, "message": "INVALID_PARAMETERS"})
 		c.Abort()
 		return
 	}

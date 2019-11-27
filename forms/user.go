@@ -10,6 +10,9 @@ type CreateUserCommand struct {
 	Extend2     string  `json:"extend2"`
 }
 
+type ListUserCommand struct {
+	Keyword  string    `json:"keyword"`
+}
 
 type UpdateUserImageCommand struct {
 	ID          string   `json:"id" binding:"required"`
@@ -23,7 +26,9 @@ type VerifyImageCommand struct {
 	Max         int       `json:"max" binding:"required"`
 	Image       string   `json:"image" binding:"required"`
 }
-
+type FindUserCommand struct {
+	ID   string  `json:"id" binding:"required"`
+}
 
 type DeleteUserCommand struct {
 	ID   string  `json:"id" binding:"required"`

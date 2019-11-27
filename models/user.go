@@ -32,9 +32,18 @@ func (m *UserModel) Create(data forms.CreateUserCommand) (id bson.ObjectId, err 
 	return id,err
 }
 
-func (m *UserModel) List() (list []User, err error) {
+func (m *UserModel) List(keyword string ) (list []User, err error) {
 	collection := dbConnect.Use("wpc", "users")
-	err = collection.Find(bson.M{}).All(&list)
+	var query = bson.M{}
+		if keyword != "" {
+		var keysarch =".*"+keyword+".*" ;
+		query = bson.M{ "$or": []bson.M{{"email":bson.M{"$regex":keysarch}},
+		{"firstname":bson.M{"$regex":keysarch}},
+		{"lastname":bson.M{"$regex":keysarch}},
+		{"company":bson.M{"$regex":keysarch}}}}
+	}
+	fmt.Println("List Query :>",query)
+	err = collection.Find(query).All(&list)
 	return list, err
 }
 

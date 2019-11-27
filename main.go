@@ -82,6 +82,8 @@ func main() {
 		userController.Messages =messages;
 		v1.POST("/user/create", userController.Create)
 		v1.POST("/user/delete", userController.Delete)
+		v1.POST("/user/list", userController.List)
+		v1.POST("/user/info", userController.Find)
 		v1.POST("/user/updateImage", userController.UpdateImage)
 		v1.POST("/fr/verification", userController.VerifyImage)
 	}

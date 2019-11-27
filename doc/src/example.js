@@ -37,11 +37,9 @@
   * @apiName GetUser
   * @apiGroup User
   *
-  * @apiDescription 使用用戶的ID,email或mobile其中之一來取得用戶資訊，參數三種至少要有一種
+  * @apiDescription 使用用戶的ID來取得用戶資訊
   *
   * @apiParam {String} id  用戶 ID
-  * @apiParam {String} email 用戶 email
-  * @apiParam {String} mobile 用戶 mobile
   *
   * @apiSuccess {Number} code  錯誤代碼
   *                 0:SUCCESS(成功)

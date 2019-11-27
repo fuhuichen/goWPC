@@ -72,6 +72,14 @@ func createUser(firstname string, lastname string, company string,
         return callAPI(url,jsonStr);
 }
 
+func listUser(keyword string ) (response string){
+        s := fmt.Sprintf("{\"keyword\":\"%s\"}",keyword)
+          fmt.Println("Create Response:>",s )
+        var jsonStr = []byte(s);
+        url := "http://127.0.0.1:9741/api/user/list"
+        return callAPI(url,jsonStr);
+}
+
 
 
 func frsLogin(username string,password string) (response string){
@@ -145,10 +153,12 @@ func main() {
     json.Unmarshal([]byte(response), &updateImageRes)
     fmt.Printf("Umpage Image User Code : %d Message: %s", updateImageRes.Code, updateImageRes.Message)
 
-    response  = verifyImage(0.7,1,"./photo3.jpg")
+  //  response  = verifyImage(0.7,1,"./photo3.jpg")
     //var updateImageRes GeneralResponse
-    json.Unmarshal([]byte(response), &updateImageRes)
-    fmt.Printf("Umpage Image User Code : %d Message: %s", updateImageRes.Code, updateImageRes.Message)
+    //json.Unmarshal([]byte(response), &updateImageRes)
+    //fmt.Printf("Umpage Image User Code : %d Message: %s", updateImageRes.Code, updateImageRes.Message)
+
+    response  = listUser("test")
     /*
     var response  = createUser("YoungHwa", "Song", "Advantech","test@gmail.com","09876543","ext1","ext2" );
     fmt.Println("Create Response:>", response)
