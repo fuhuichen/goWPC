@@ -1,33 +1,5 @@
 [
   {
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "optional": false,
-            "field": "varname1",
-            "description": "<p>No type.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "varname2",
-            "description": "<p>With type.</p>"
-          }
-        ]
-      }
-    },
-    "type": "",
-    "url": "",
-    "version": "0.0.0",
-    "filename": "./html/main.js",
-    "group": "C__Users_fhhui_go_src_goWPC_doc_html_main_js",
-    "groupTitle": "C__Users_fhhui_go_src_goWPC_doc_html_main_js",
-    "name": ""
-  },
-  {
     "type": "post",
     "url": "/api/fr/verification",
     "title": "人臉辨識",
@@ -77,54 +49,12 @@
             "type": "Object[]",
             "optional": false,
             "field": "userList",
-            "description": "<p>回傳用戶資訊陣列</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "userList.id",
-            "description": ""
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "userList.email",
-            "description": ""
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "userList.name",
-            "description": ""
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "userList.mobile",
-            "description": ""
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "userList.imageUrl",
-            "description": "<p>用戶圖片url</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Boolean",
-            "optional": false,
-            "field": "userList.registered",
-            "description": "<p>是否已報到</p>"
+            "description": "<p>回傳用戶資訊陣列(物件參考/api/user/info)</p>"
           }
         ]
       }
     },
-    "filename": "./src/example.js",
+    "filename": "src/example.js",
     "groupTitle": "Face_Recognition"
   },
   {
@@ -161,7 +91,7 @@
         ]
       }
     },
-    "filename": "./src/example.js",
+    "filename": "src/example.js",
     "groupTitle": "User"
   },
   {
@@ -171,7 +101,7 @@
     "version": "0.0.1",
     "name": "GetUser",
     "group": "User",
-    "description": "<p>使用用戶的ID,email或mobile其中之一來取得用戶資訊，參數三種至少要有一種</p>",
+    "description": "<p>使用用戶的ID來取得用戶資訊</p>",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -181,20 +111,6 @@
             "optional": false,
             "field": "id",
             "description": "<p>用戶 ID</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "email",
-            "description": "<p>用戶 email</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "mobile",
-            "description": "<p>用戶 mobile</p>"
           }
         ]
       }
@@ -228,35 +144,42 @@
             "type": "String",
             "optional": false,
             "field": "user.id",
-            "description": ""
+            "description": "<p>用戶 ID</p>"
           },
           {
             "group": "Success 200",
             "type": "String",
             "optional": false,
-            "field": "user.name",
-            "description": ""
+            "field": "firstname",
+            "description": "<p>用戶名</p>"
           },
           {
             "group": "Success 200",
             "type": "String",
             "optional": false,
-            "field": "user.email",
-            "description": ""
+            "field": "lastname",
+            "description": "<p>用戶姓</p>"
           },
           {
             "group": "Success 200",
             "type": "String",
             "optional": false,
-            "field": "user.company",
-            "description": ""
+            "field": "email",
+            "description": "<p>用戶email</p>"
           },
           {
             "group": "Success 200",
             "type": "String",
             "optional": false,
-            "field": "user.mobile",
-            "description": ""
+            "field": "company",
+            "description": "<p>用戶公司名稱</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "mobile",
+            "description": "<p>用戶手機號碼</p>"
           },
           {
             "group": "Success 200",
@@ -269,15 +192,8 @@
             "group": "Success 200",
             "type": "Boolean",
             "optional": false,
-            "field": "user.frEnabled",
+            "field": "user.faceRegistered",
             "description": "<p>是否已註冊照片</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "user.imageUrl",
-            "description": "<p>用戶圖片url</p>"
           },
           {
             "group": "Success 200",
@@ -310,7 +226,58 @@
         ]
       }
     },
-    "filename": "./src/example.js",
+    "filename": "src/example.js",
+    "groupTitle": "User"
+  },
+  {
+    "type": "post",
+    "url": "/api/user/face",
+    "title": "取得用戶圖片",
+    "version": "0.0.1",
+    "name": "GetUserFace",
+    "group": "User",
+    "description": "<p>使用用戶的ID來取得用戶圖片</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "id",
+            "description": "<p>用戶 ID</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>錯誤代碼 0:SUCCESS(成功) 1:INVALID_PARAMETERS(參數缺少或錯誤) 3:USER_NOT_EXIST(用戶不存在)</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>錯誤訊息</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "image",
+            "description": "<p>用戶圖片(base64)</p>"
+          }
+        ]
+      }
+    },
+    "filename": "src/example.js",
     "groupTitle": "User"
   },
   {
@@ -403,7 +370,7 @@
         ]
       }
     },
-    "filename": "./src/example.js",
+    "filename": "src/example.js",
     "groupTitle": "User"
   },
   {
@@ -422,14 +389,21 @@
             "type": "String",
             "optional": false,
             "field": "id",
-            "description": "<p>用戶 ID</p>"
+            "description": "<p>用戶 ID (必填)</p>"
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": "name",
-            "description": "<p>用戶姓名</p>"
+            "field": "firstname",
+            "description": "<p>用戶名</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "lastname",
+            "description": "<p>用戶姓</p>"
           },
           {
             "group": "Parameter",
@@ -475,7 +449,7 @@
         ]
       }
     },
-    "filename": "./src/example.js",
+    "filename": "src/example.js",
     "groupTitle": "User"
   },
   {
@@ -502,6 +476,13 @@
             "optional": false,
             "field": "boothName",
             "description": "<p>攤位名稱</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Boolean",
+            "optional": false,
+            "field": "checked",
+            "description": "<p>是否已簽到</p>"
           }
         ]
       }
@@ -519,7 +500,7 @@
         ]
       }
     },
-    "filename": "./src/example.js",
+    "filename": "src/example.js",
     "groupTitle": "User"
   },
   {
@@ -563,7 +544,7 @@
         ]
       }
     },
-    "filename": "./src/example.js",
+    "filename": "src/example.js",
     "groupTitle": "User"
   },
   {
@@ -602,54 +583,12 @@
             "type": "Object[]",
             "optional": false,
             "field": "userList",
-            "description": "<p>回傳用戶資訊陣列</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "userList.id",
-            "description": ""
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "userList.email",
-            "description": ""
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "userList.name",
-            "description": ""
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "userList.mobile",
-            "description": ""
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "userList.imageUrl",
-            "description": "<p>用戶圖片url</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Boolean",
-            "optional": false,
-            "field": "userList.registered",
-            "description": "<p>是否已報到</p>"
+            "description": "<p>回傳用戶資訊陣列(物件參考/api/user/info)</p>"
           }
         ]
       }
     },
-    "filename": "./src/example.js",
+    "filename": "src/example.js",
     "groupTitle": "User"
   }
 ]

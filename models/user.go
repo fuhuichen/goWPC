@@ -1,21 +1,33 @@
 package models
 
 import (
+	"reflect"
 	"fmt"
 	"goWPC/db"
 	"goWPC/forms"
 	"gopkg.in/mgo.v2/bson"
 )
 
+type CheckRecord struct {
+	BoothName     string         			`json:"boothName" bson:"boothName"`
+	Checked   		bool						    `json:"checked" bson:"checked"`
+}
+
 type User struct {
 	ID           bson.ObjectId  `json:"id" bson:"_id,omitempty"`
-	FirstName    string         `json:firstname`
-	LastName     string         `json:lastname`
-	Email        string         `json:email`
-	Company      string         `json:company`
-	Mobile       string         `json:mobile`
-	Extend1      string 			  `json:"extend1"`
-	Extend2      string 				`json:"extend2"`
+	FirstName    string         `json:"firstname" bson:"firstname"`
+	LastName     string         `json:"lastname" bson:"lastname"`
+	Email        string         `json:"email"  bson:"email"`
+	Company      string         `json:"company" bson:"company"`
+	Mobile       string         `json:"mobile" bson:"mobile"`
+	Extend1      string 			  `json:"extend1" bson:"extend1"`
+	Extend2      string 				`json:"extend2" bson:"extend2"`
+	Registered       bool         `json:"registered" bson:"registered"`
+	FaceRegistered   bool        `json:"faceRegistered" bson:"face_registerd"`
+	CheckList    []CheckRecord 	`json:"checkList" bson:"checkList"`
+}
+type Face struct {
+	Image  string      `json:"image" bson:"image"`
 }
 
 type UserModel struct{}
@@ -60,17 +72,65 @@ func (m *UserModel) GetByName(
 func (m *UserModel) GetByPersonID(
 		personid string) (user User, err error) {
 	collection := dbConnect.Use("wpc", "users")
+
 	err = collection.Find(
 		bson.M{"personid":personid}).One(&user)
 	return user, err
 }
 
+func FillStruct(data map[string]interface{}, result interface{}) {
+    t := reflect.ValueOf(result).Elem()
+    for k, v := range data {
+        val := t.FieldByName(k)
+        val.Set(reflect.ValueOf(v))
+    }
+}
+
 func (m *UserModel) Get(id string) (user User, err error) {
 	collection := dbConnect.Use("wpc", "users")
+	fmt.Println("Result-:>",user)
 	err = collection.FindId(bson.ObjectIdHex(id)).One(&user)
 	return user, err
 }
 
+func (m *UserModel) GetFace(id string) (face Face, err error) {
+	collection := dbConnect.Use("wpc", "users")
+	err = collection.FindId(bson.ObjectIdHex(id)).One(&face)
+	return face, err
+}
+
+
+func (m *UserModel) UpdateCheck( f forms.UpdateCheckCommand) (err error) {
+	collection := dbConnect.Use("wpc", "users")
+	var user User
+	err = collection.FindId(bson.ObjectIdHex(f.ID)).One(&user)
+	if err != nil {
+		return err
+	}
+	fmt.Println("Iser :>",user)
+  cList := []bson.M{}
+	find := false
+	for _, element := range user.CheckList {
+    fmt.Println(element)
+		if element.BoothName == f.BoothName {
+			//fmt.Println("Update booth :>"+element.BoothName)
+			cList  = append(cList,bson.M{"boothName": f.BoothName, "checked":element.Checked } )
+			find = true
+		}else{
+			//fmt.Println("Old booth :>"+ element.BoothName)
+			cList  = append(cList,bson.M{"boothName": element.BoothName, "checked":element.Checked } )
+		}
+  }
+	if find ==false  {
+	//	fmt.Println("Not found :>"+f.BoothName)
+		cList  = append(cList,bson.M{"boothName": f.BoothName, "checked":f.Checked } )
+	}
+
+	data := bson.M{"$set": bson.M{"checkList": cList }}
+		fmt.Println("Data :>",data)
+	err = collection.UpdateId(bson.ObjectIdHex(f.ID), data)
+	return err
+}
 
 func (m *UserModel) UpdateImage( f forms.UpdateUserImageCommand) (err error) {
 	collection := dbConnect.Use("wpc", "users")
@@ -79,9 +139,31 @@ func (m *UserModel) UpdateImage( f forms.UpdateUserImageCommand) (err error) {
 	return err
 }
 
-func (m *UserModel) Update(id string, data forms.UpdateUserCommand) (err error) {
+func (m *UserModel) Update(f forms.UpdateUserCommand) (err error) {
 	collection := dbConnect.Use("wpc", "users")
-	err = collection.UpdateId(bson.ObjectIdHex(id), data)
+	updateList := bson.M{}
+	//if f.Registered != nil{
+	//	  updateList["registered"] = f.Registered
+//	}
+	if f.Registered != nil {
+			updateList["registered"] = f.Registered
+	}
+	if f.Email != "" {
+			updateList["email"] = f.Email
+	}
+	if f.Mobile != "" {
+			updateList["mobile"] = f.Mobile
+	}
+	if f.Extend1 != "" {
+			updateList["extend1"] = f.Extend1
+	}
+	if f.Extend2 != "" {
+			updateList["extend2"] = f.Extend2
+	}
+	//fmt.Println("Cmd Data :>",f.Registered)
+	data := bson.M{"$set": updateList}
+	fmt.Println("Data :>",data)
+	err = collection.UpdateId(bson.ObjectIdHex(f.ID), data)
 	return err
 }
 

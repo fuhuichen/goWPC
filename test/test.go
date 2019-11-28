@@ -62,6 +62,38 @@ func deleteUser(id string ) (response string){
         return callAPI(url,jsonStr);
 }
 
+func findUser(id string ) (response string){
+        s := fmt.Sprintf("{\"id\":\"%s\"}",id)
+      //    fmt.Println("Create Response:>",s )
+        var jsonStr = []byte(s);
+        url := "http://127.0.0.1:9741/api/user/info"
+        return callAPI(url,jsonStr);
+}
+
+func findUserFace(id string ) (response string){
+        s := fmt.Sprintf("{\"id\":\"%s\"}",id)
+      //    fmt.Println("Create Response:>",s )
+        var jsonStr = []byte(s);
+        url := "http://127.0.0.1:9741/api/user/face"
+        return callAPI(url,jsonStr);
+}
+
+func updateUser(id string, email string ,registered bool ) (response string){
+        s := fmt.Sprintf("{\"id\":\"%s\",\"email\":\"%s\",\"registered\":%t}",id,email,registered)
+      //    fmt.Println("Create Response:>",s )
+        var jsonStr = []byte(s);
+        url := "http://127.0.0.1:9741/api/user/update"
+        return callAPI(url,jsonStr);
+}
+
+func updateBoothCheck(id string ,boothName string, checked bool) (response string){
+        s := fmt.Sprintf("{\"id\":\"%s\",\"boothName\":\"%s\",\"checked\":%t}",id,boothName,checked)
+        fmt.Println("Create Response:>",s )
+        var jsonStr = []byte(s);
+        url := "http://127.0.0.1:9741/api/user/updateCheck"
+        return callAPI(url,jsonStr);
+}
+
 func createUser(firstname string, lastname string, company string,
         email string ,mobile string ,extend1 string,extend2 string ) (response string){
         s := fmt.Sprintf("{\"firstname\":\"%s\",\"lastname\":\"%s\",\"company\":\"%s\",\"email\":\"%s\",\"mobile\":\"%s\", \"extend1\":\"%s\",\"extend2\":\"%s\"}",
@@ -79,6 +111,8 @@ func listUser(keyword string ) (response string){
         url := "http://127.0.0.1:9741/api/user/list"
         return callAPI(url,jsonStr);
 }
+
+
 
 
 
@@ -152,13 +186,19 @@ func main() {
     var updateImageRes GeneralResponse
     json.Unmarshal([]byte(response), &updateImageRes)
     fmt.Printf("Umpage Image User Code : %d Message: %s", updateImageRes.Code, updateImageRes.Message)
-
+    //updateBoothCheck("5ddc97509eff62678c6c0cf1" ,"BoothA", true)
+    //updateBoothCheck("5ddc97509eff62678c6c0cf1" ,"BoothB", true)
+    //updateBoothCheck("5ddc97509eff62678c6c0cf1" ,"BoothC", true)
+    //updateBoothCheck("5ddc97509eff62678c6c0cf1" ,"BoothA", false)
+    updateUser("5ddc97509eff62678c6c0cf1","123@gmail",true)
+    findUser("5ddc97509eff62678c6c0cf1")
+    findUserFace("5ddc97509eff62678c6c0cf1")
   //  response  = verifyImage(0.7,1,"./photo3.jpg")
     //var updateImageRes GeneralResponse
     //json.Unmarshal([]byte(response), &updateImageRes)
     //fmt.Printf("Umpage Image User Code : %d Message: %s", updateImageRes.Code, updateImageRes.Message)
-
-    response  = listUser("test")
+//"5ddc97509eff62678c6c0cf1"
+    response  = listUser("")
     /*
     var response  = createUser("YoungHwa", "Song", "Advantech","test@gmail.com","09876543","ext1","ext2" );
     fmt.Println("Create Response:>", response)

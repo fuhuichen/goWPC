@@ -70,22 +70,37 @@ func (user *UserController) Find(c *gin.Context) {
 	}
 }
 
-func (user *UserController) Update(c *gin.Context) {
-	id := c.Param("id")
-	data := forms.UpdateUserCommand{}
-
+func (user *UserController) FindFace(c *gin.Context) {
+	var data forms.FindUserCommand
 	if c.BindJSON(&data) != nil {
-		c.JSON(200, gin.H{"message": "Invalid Parameters"})
+		c.JSON(200, gin.H{"code":1, "message": "INVALID_PARAMETERS"})
 		c.Abort()
 		return
 	}
-	err := userModel.Update(id, data)
+	profile, err := userModel.GetFace(data.ID)
 	if err != nil {
-		c.JSON(200, gin.H{"message": "User Could Not Be Updated", "error": err.Error()})
+		c.JSON(200, gin.H{"code":3, "message": "USER_NOT_EXIST"})
+		c.Abort()
+	} else {
+		c.JSON(200, gin.H{"code":0, "message": "SUCCESS", "image": profile.Image})
+	}
+}
+
+func (user *UserController) Update(c *gin.Context) {
+	var data forms.UpdateUserCommand
+	if c.BindJSON(&data) != nil {
+
+		c.JSON(200, gin.H{"code":1, "message": "INVALID_PARAMETERS"})
 		c.Abort()
 		return
 	}
-	c.JSON(200, gin.H{"message": "User Updated"})
+	err := userModel.Update(data)
+	if err != nil {
+		c.JSON(200, gin.H{"code":5, "message": "OPERATION_FAIL"})
+		c.Abort()
+		return
+	}
+	c.JSON(200, gin.H{"code":0, "message": "SUCCESS"})
 }
 
 func (user *UserController) Delete(c *gin.Context) {
@@ -134,6 +149,26 @@ func (user *UserController) UpdateImage(c *gin.Context) {
 }
 
 
+func (user *UserController) UpdateCheck(c *gin.Context) {
+	//	fmt.Println("update check=")
+	var data forms.UpdateCheckCommand
+	if c.BindJSON(&data) != nil {
+			fmt.Println("data id=", data)
+		c.JSON(200, gin.H{"code":1, "message": "INVALID_PARAMETERS"})
+		c.Abort()
+		return
+	}
+	err := userModel.UpdateCheck(data)
+	if err != nil {
+		c.JSON(200, gin.H{"code":5, "message": "OPERATION_FAIL"})
+		c.Abort()
+		return
+	}
+	c.JSON(200, gin.H{"code":0, "message": "SUCCESS"})
+}
+
+
+
 
 
 func (user *UserController) VerifyImage(c *gin.Context) {
@@ -178,7 +213,7 @@ func (user *UserController) VerifyImage(c *gin.Context) {
   fmt.Println("Person ID=>", personID)
   var profileList  [1]models.User
 	profile, err := userModel.GetByPersonID(personID)
-	fmt.Println("get by person id err:>", err)
+	//fmt.Println("get by person id err:>", err)
 	if err != nil {
 		c.JSON(200, gin.H{"code":0, "message": "SUCCESS", "userList":userList})
 		c.Abort()

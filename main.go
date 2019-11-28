@@ -84,6 +84,9 @@ func main() {
 		v1.POST("/user/delete", userController.Delete)
 		v1.POST("/user/list", userController.List)
 		v1.POST("/user/info", userController.Find)
+		v1.POST("/user/face", userController.FindFace)
+		v1.POST("/user/update", userController.Update)
+		v1.POST("/user/updateCheck", userController.UpdateCheck)
 		v1.POST("/user/updateImage", userController.UpdateImage)
 		v1.POST("/fr/verification", userController.VerifyImage)
 	}
