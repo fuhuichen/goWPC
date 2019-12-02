@@ -189,7 +189,7 @@ function updateUserCheck() { return; }
   * @apiDescription 人臉辦識，可以選擇可信度，及最大回傳數目，結果會回傳0-max個辨識結果高於可信度值的用戶資訊
   * @apiParam {String} image 臉部圖片(base64-encoded)
   * @apiParam {Number}  threshold  可信度(0.0-1.0),數字愈高可信度愈高
-  * @apiParam {Numnber} max  最多回傳用戶數目
+  * @apiParam {Numnber} max  最多回傳用戶數目 (目前只支援1個)
   *
   * @apiSuccess {Number} code  錯誤代碼
   *                 0:SUCCESS(成功)

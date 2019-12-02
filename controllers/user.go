@@ -182,7 +182,7 @@ func (user *UserController) VerifyImage(c *gin.Context) {
 	var userList = make([]models.User, 0)
 	var frsClient = new(frs.FrsClient)
 	frsClient.IP ="172.22.20.175:80";
-	var frsVerifyFaceID = frsClient.FrsVerify(user.SessionID, data.Image)
+	var frsVerifyFaceID = frsClient.FrsVerify(user.SessionID, data.Image,data.Threshold)
 	fmt.Println("get face id=", frsVerifyFaceID)
 	if  frsVerifyFaceID == "" {
 		c.JSON(200, gin.H{"code":0, "message": "SUCCESS", "userList":userList})
