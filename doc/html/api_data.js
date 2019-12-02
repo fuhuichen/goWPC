@@ -60,7 +60,7 @@ define({ "api": [
   {
     "type": "post",
     "url": "/api/user/delete",
-    "title": "刪除用戶",
+    "title": "8.刪除用戶",
     "version": "0.0.1",
     "name": "DeleteUser",
     "group": "User",
@@ -97,7 +97,7 @@ define({ "api": [
   {
     "type": "post",
     "url": "/api/user/info",
-    "title": "尋找用戶",
+    "title": "6.尋找用戶",
     "version": "0.0.1",
     "name": "GetUser",
     "group": "User",
@@ -206,6 +206,20 @@ define({ "api": [
             "group": "Success 200",
             "type": "String",
             "optional": false,
+            "field": "user.extend1",
+            "description": "<p>自訂資料1</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "user.extend2",
+            "description": "<p>自訂資料2</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
             "field": "user.checkList.boothName",
             "description": "<p>簽到紀錄-攤位名稱</p>"
           },
@@ -232,7 +246,7 @@ define({ "api": [
   {
     "type": "post",
     "url": "/api/user/face",
-    "title": "取得用戶圖片",
+    "title": "5.取得用戶圖片",
     "version": "0.0.1",
     "name": "GetUserFace",
     "group": "User",
@@ -283,7 +297,7 @@ define({ "api": [
   {
     "type": "post",
     "url": "/api/user/create",
-    "title": "建立用戶",
+    "title": "1.建立用戶",
     "version": "0.0.1",
     "name": "PostUser",
     "group": "User",
@@ -376,7 +390,7 @@ define({ "api": [
   {
     "type": "post",
     "url": "/api/user/update",
-    "title": "更新用戶資訊",
+    "title": "2.更新用戶資訊",
     "version": "0.0.1",
     "name": "UpdateUser",
     "group": "User",
@@ -395,20 +409,6 @@ define({ "api": [
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": "firstname",
-            "description": "<p>用戶名</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "lastname",
-            "description": "<p>用戶姓</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
             "field": "email",
             "description": "<p>用戶email</p>"
           },
@@ -416,15 +416,22 @@ define({ "api": [
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": "company",
-            "description": "<p>用戶公司名稱</p>"
+            "field": "mobile",
+            "description": "<p>用戶手機號碼</p>"
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": "mobile",
-            "description": "<p>用戶手機號碼</p>"
+            "field": "extend1",
+            "description": "<p>自訂資料1</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "extend2",
+            "description": "<p>自訂資料2</p>"
           },
           {
             "group": "Parameter",
@@ -455,7 +462,7 @@ define({ "api": [
   {
     "type": "post",
     "url": "/api/user/check",
-    "title": "攤位簽到",
+    "title": "4.攤位簽到",
     "version": "0.0.1",
     "name": "UpdateUserCheck",
     "group": "User",
@@ -506,7 +513,7 @@ define({ "api": [
   {
     "type": "post",
     "url": "/api/user/updateImage",
-    "title": "更新用戶圖片",
+    "title": "3.更新用戶圖片",
     "version": "0.0.1",
     "name": "UpdateUserImage",
     "group": "User",
@@ -550,7 +557,7 @@ define({ "api": [
   {
     "type": "post",
     "url": "/api/user/list",
-    "title": "列出使用者",
+    "title": "7.列出使用者",
     "version": "0.0.1",
     "name": "listUsers",
     "group": "User",

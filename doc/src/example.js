@@ -5,7 +5,7 @@
 
 
 /**
- * @api {post} /api/user/create 建立用戶
+ * @api {post} /api/user/create 1.建立用戶
  * @apiVersion 0.0.1
  * @apiName PostUser
  * @apiGroup User
@@ -32,7 +32,7 @@
  function postUser() { return; }
 
  /**
-  * @api {post} /api/user/info  尋找用戶
+  * @api {post} /api/user/info  6.尋找用戶
   * @apiVersion 0.0.1
   * @apiName GetUser
   * @apiGroup User
@@ -56,6 +56,8 @@
   * @apiSuccess   {Boolean}  user.registered 是否已報到
   * @apiSuccess   {Boolean}  user.faceRegistered 是否已註冊照片
   * @apiSuccess   {Object[]} user.checkList  用戶到攤位簽到紀錄
+  * @apiSuccess   {String}   user.extend1     自訂資料1
+  * @apiSuccess    {String}  user.extend2     自訂資料2
   * @apiSuccess   {String}   user.checkList.boothName  簽到紀錄-攤位名稱
   * @apiSuccess   {Boolean}  user.checkList.checked  簽到紀錄-是否已簽到
   * @apiSuccess   {Number}   user.checkList.time 簽到紀錄-簽到時間unix time
@@ -64,7 +66,7 @@
 
  function getUser() { return; }
  /**
-  * @api {post} /api/user/face  取得用戶圖片
+  * @api {post} /api/user/face  5.取得用戶圖片
   * @apiVersion 0.0.1
   * @apiName GetUserFace
   * @apiGroup User
@@ -85,7 +87,7 @@
  function getUserFace() { return; }
 
  /**
-  * @api {post} /api/user/check  攤位簽到
+  * @api {post} /api/user/check  4.攤位簽到
   * @apiVersion 0.0.1
   * @apiName UpdateUserCheck
   * @apiGroup User
@@ -105,7 +107,7 @@
   function updateUserCheck() { return; }
 
  /**
-  * @api {post} /api/user/updateImage  更新用戶圖片
+  * @api {post} /api/user/updateImage  3.更新用戶圖片
   * @apiVersion 0.0.1
   * @apiName UpdateUserImage
   * @apiGroup User
@@ -125,7 +127,7 @@
 function updateUserCheck() { return; }
 
   /**
-   * @api {post} /api/user/update  更新用戶資訊
+   * @api {post} /api/user/update  2.更新用戶資訊
    * @apiVersion 0.0.1
    * @apiName UpdateUser
    * @apiGroup User
@@ -133,11 +135,10 @@ function updateUserCheck() { return; }
    * @apiDescription 更新用戶資訊，包含基本資訊及用戶簽到與否
    *
    * @apiParam {String} id  用戶 ID (必填)
-   * @apiParam {String} firstname    用戶名
-   * @apiParam {String} lastname     用戶姓
    * @apiParam {String} email 用戶email
-   * @apiParam {String} company 用戶公司名稱
    * @apiParam {String} mobile  用戶手機號碼
+   ** @apiParam {String}  extend1     自訂資料1
+   * @apiParam  {String}  extend2     自訂資料2
    * @apiParam {String} registered 用戶是否已經簽到
    *
    * @apiSuccess {Number} code  錯誤代碼
@@ -149,7 +150,7 @@ function updateUserCheck() { return; }
   function updateUser() { return; }
 
   /**
-   * @api {post} /api/user/delete  刪除用戶
+   * @api {post} /api/user/delete  8.刪除用戶
    * @apiVersion 0.0.1
    * @apiName DeleteUser
    * @apiGroup User
@@ -168,7 +169,7 @@ function updateUserCheck() { return; }
   function deleteUser() { return; }
 
   /**
-   * @api {post} /api/user/list 列出使用者
+   * @api {post} /api/user/list 7.列出使用者
    * @apiVersion 0.0.1
    * @apiName listUsers
    * @apiGroup User
