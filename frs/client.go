@@ -87,7 +87,7 @@ func  (client *FrsClient) FrsVerify(sessionId string,encoded string, rate float6
       src := fmt.Sprintf("src%d",rand.Intn(1000))
       loc := fmt.Sprintf("loc%d",rand.Intn(1000))
         s := fmt.Sprintf("{\"session_id\": \"%s\",\"target_score\" : %f, \"request_client\" : \"Test1\",  \"action_enable\": 0,\"source_id\" : \"%s\",\"location\":\"%s\",\"image\":\"%s\"}",
-            sessionId,src,loc,encoded)
+            sessionId,rate,src,loc,encoded)
       //    fmt.Println("Create Response:>",s )
         var jsonStr = []byte(s);
         url :=   fmt.Sprintf("http://%s/frs/cgi/verifyface",client.IP )
