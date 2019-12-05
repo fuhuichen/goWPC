@@ -1,6 +1,7 @@
 package models
 
 import (
+	"errors"
 	"reflect"
 	"fmt"
 	"goWPC/db"
@@ -87,13 +88,21 @@ func FillStruct(data map[string]interface{}, result interface{}) {
 }
 
 func (m *UserModel) Get(id string) (user User, err error) {
+	if !bson.IsObjectIdHex(id) {
+		err =errors.New("Invalid ObjectIDHex");
+    return user, err
+  }
 	collection := dbConnect.Use("wpc", "users")
-	fmt.Println("Result-:>",user)
+	fmt.Println("Find Result-:>",id )
 	err = collection.FindId(bson.ObjectIdHex(id)).One(&user)
 	return user, err
 }
 
 func (m *UserModel) GetFace(id string) (face Face, err error) {
+	if !bson.IsObjectIdHex(id) {
+		err =errors.New("Invalid ObjectIDHex");
+		return face, err
+	}
 	collection := dbConnect.Use("wpc", "users")
 	err = collection.FindId(bson.ObjectIdHex(id)).One(&face)
 	return face, err
@@ -168,6 +177,10 @@ func (m *UserModel) Update(f forms.UpdateUserCommand) (err error) {
 }
 
 func (m *UserModel) Delete(id string) (err error) {
+	if !bson.IsObjectIdHex(id) {
+		err =errors.New("Invalid ObjectIDHex");
+		return  err
+	}
 	collection := dbConnect.Use("wpc", "users")
 	err = collection.RemoveId(bson.ObjectIdHex(id))
 

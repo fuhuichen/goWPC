@@ -42,6 +42,7 @@ func (user *UserController) Create(c *gin.Context) {
 }
 
 func (user *UserController) List(c *gin.Context) {
+	fmt.Println("List Users")
 	var data forms.ListUserCommand
 	c.BindJSON(&data)
 	list, err := userModel.List(data.Keyword)
@@ -55,6 +56,7 @@ func (user *UserController) List(c *gin.Context) {
 }
 
 func (user *UserController) Find(c *gin.Context) {
+	fmt.Println("Find Iser-:>")
 	var data forms.FindUserCommand
 	if c.BindJSON(&data) != nil {
 		c.JSON(200, gin.H{"code":1, "message": "INVALID_PARAMETERS"})
@@ -62,11 +64,15 @@ func (user *UserController) Find(c *gin.Context) {
 		return
 	}
 	profile, err := userModel.Get(data.ID)
+	fmt.Println("Find MObile-:>",err)
 	if err != nil {
 		c.JSON(200, gin.H{"code":3, "message": "USER_NOT_EXIST"})
 		c.Abort()
+			return
 	} else {
 		c.JSON(200, gin.H{"code":0, "message": "SUCCESS", "user": profile})
+		c.Abort()
+			return
 	}
 }
 
