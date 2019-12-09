@@ -29,7 +29,7 @@ define({ "api": [
             "type": "Numnber",
             "optional": false,
             "field": "max",
-            "description": "<p>最多回傳用戶數目</p>"
+            "description": "<p>最多回傳用戶數目 (目前只支援1個)</p>"
           }
         ]
       }
@@ -192,6 +192,20 @@ define({ "api": [
             "group": "Success 200",
             "type": "Boolean",
             "optional": false,
+            "field": "user.counterRegistered",
+            "description": "<p>是否由櫃台報到</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Boolean",
+            "optional": false,
+            "field": "user.registerTime",
+            "description": "<p>報到時間</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Boolean",
+            "optional": false,
             "field": "user.faceRegistered",
             "description": "<p>是否已註冊照片</p>"
           },
@@ -337,6 +351,13 @@ define({ "api": [
             "group": "Parameter",
             "type": "String",
             "optional": false,
+            "field": "title",
+            "description": "<p>用戶公司職稱</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
             "field": "mobile",
             "description": "<p>用戶手機號碼</p>"
           },
@@ -423,6 +444,13 @@ define({ "api": [
             "group": "Parameter",
             "type": "String",
             "optional": false,
+            "field": "title",
+            "description": "<p>用戶職稱</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
             "field": "extend1",
             "description": "<p>自訂資料1</p>"
           },
@@ -435,10 +463,17 @@ define({ "api": [
           },
           {
             "group": "Parameter",
-            "type": "String",
+            "type": "Bool",
             "optional": false,
             "field": "registered",
             "description": "<p>用戶是否已經簽到</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Bool",
+            "optional": false,
+            "field": "counterRegistered",
+            "description": "<p>用戶是否由櫃台簽到</p>"
           }
         ]
       }
