@@ -16,6 +16,7 @@
  * @apiParam {String}   lastname     用戶姓(必填)
  * @apiParam {String}   email       用戶email(必填)
  * @apiParam {String}   company     用戶公司名稱
+ * @apiParam {String}   title       用戶公司職稱
  * @apiParam {String}   mobile      用戶手機號碼
  ** @apiParam {String}  extend1     自訂資料1
  * @apiParam  {String}  extend2     自訂資料2
@@ -54,8 +55,10 @@
   * @apiSuccess {String}   company     用戶公司名稱
   * @apiSuccess  {String}   mobile      用戶手機號碼
   * @apiSuccess   {Boolean}  user.registered 是否已報到
+  * @apiSuccess   {Boolean}  user.counterRegistered 是否由櫃台報到
+  * @apiSuccess   {Boolean}  user.registerTime    報到時間
   * @apiSuccess   {Boolean}  user.faceRegistered 是否已註冊照片
-  * @apiSuccess   {Object[]} user.checkList  用戶到攤位簽到紀錄
+  * @apiSuccess   {Object[]} user.checkList     用戶到攤位簽到紀錄
   * @apiSuccess   {String}   user.extend1     自訂資料1
   * @apiSuccess    {String}  user.extend2     自訂資料2
   * @apiSuccess   {String}   user.checkList.boothName  簽到紀錄-攤位名稱
@@ -137,9 +140,11 @@ function updateUserCheck() { return; }
    * @apiParam {String} id  用戶 ID (必填)
    * @apiParam {String} email 用戶email
    * @apiParam {String} mobile  用戶手機號碼
-   ** @apiParam {String}  extend1     自訂資料1
+   * @apiParam {String} title  用戶職稱
+   * @apiParam {String}  extend1     自訂資料1
    * @apiParam  {String}  extend2     自訂資料2
-   * @apiParam {String} registered 用戶是否已經簽到
+   * @apiParam {Bool}     registered 用戶是否已經簽到
+   * @apiParam {Bool}     counterRegistered 用戶是否由櫃台簽到
    *
    * @apiSuccess {Number} code  錯誤代碼
    *                 0:SUCCESS(成功)

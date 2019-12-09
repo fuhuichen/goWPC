@@ -4,6 +4,7 @@ import (
 	"errors"
 	"reflect"
 	"fmt"
+	"time"
 	"goWPC/db"
 	"goWPC/forms"
 	"gopkg.in/mgo.v2/bson"
@@ -20,12 +21,15 @@ type User struct {
 	LastName     string         `json:"lastname" bson:"lastname"`
 	Email        string         `json:"email"  bson:"email"`
 	Company      string         `json:"company" bson:"company"`
+	Title        string     	  `json:"title" bson:"title"`
 	Mobile       string         `json:"mobile" bson:"mobile"`
 	Extend1      string 			  `json:"extend1" bson:"extend1"`
 	Extend2      string 				`json:"extend2" bson:"extend2"`
-	Registered       bool         `json:"registered" bson:"registered"`
-	FaceRegistered   bool        `json:"faceRegistered" bson:"face_registerd"`
-	CheckList    []CheckRecord 	`json:"checkList" bson:"checkList"`
+	Registered         bool         `json:"registered" bson:"registered"`
+	CounterRegistered  bool          `json:"counterRegistered" bson:"counterRegistered"`
+	RegisterTime       int64        `json:"registerTime" bson:"registerTime"`
+	FaceRegistered     bool          `json:"faceRegistered" bson:"face_registerd"`
+	CheckList          []CheckRecord 	`json:"checkList" bson:"checkList"`
 }
 type Face struct {
 	Image  string      `json:"image" bson:"image"`
@@ -40,7 +44,8 @@ func (m *UserModel) Create(data forms.CreateUserCommand) (id bson.ObjectId, err 
 	collection := dbConnect.Use("wpc", "users")
 	id = bson.NewObjectId()
 	err = collection.Insert(bson.M{"_id":id,"firstname": data.FirstName,"lastname": data.LastName,
-					"email": data.Email,"company":data.Company,"mobile":data.Mobile})
+					"title":data.Title,"email": data.Email,"company":data.Company,"mobile":data.Mobile,
+					"extend1":data.Extend1,"extend2":data.Extend2})
   fmt.Println("Create Response:>",err)
 	return id,err
 }
@@ -156,12 +161,19 @@ func (m *UserModel) Update(f forms.UpdateUserCommand) (err error) {
 //	}
 	if f.Registered != nil {
 			updateList["registered"] = f.Registered
+			updateList["registerTime"] = time.Now().Unix()
+	}
+	if f.CounterRegistered != nil {
+			updateList["counterRegistered"] = f.CounterRegistered
 	}
 	if f.Email != "" {
 			updateList["email"] = f.Email
 	}
 	if f.Mobile != "" {
 			updateList["mobile"] = f.Mobile
+	}
+	if f.Title != "" {
+			updateList["title"] = f.Title
 	}
 	if f.Extend1 != "" {
 			updateList["extend1"] = f.Extend1

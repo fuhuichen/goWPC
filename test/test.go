@@ -78,8 +78,8 @@ func findUserFace(id string ) (response string){
         return callAPI(url,jsonStr);
 }
 
-func updateUser(id string, email string ,registered bool ) (response string){
-        s := fmt.Sprintf("{\"id\":\"%s\",\"email\":\"%s\",\"registered\":%t}",id,email,registered)
+func updateUser(id string, email string ,title string,registered bool,counterRegistered bool ) (response string){
+        s := fmt.Sprintf("{\"id\":\"%s\",\"email\":\"%s\",\"title\":\"%s\",\"registered\":%t,\"counterRegistered\":%t}",id,email,title, registered,counterRegistered)
       //    fmt.Println("Create Response:>",s )
         var jsonStr = []byte(s);
         url := "http://127.0.0.1:9741/api/user/update"
@@ -94,10 +94,10 @@ func updateBoothCheck(id string ,boothName string, checked bool) (response strin
         return callAPI(url,jsonStr);
 }
 
-func createUser(firstname string, lastname string, company string,
+func createUser(firstname string, lastname string, company string, title string,
         email string ,mobile string ,extend1 string,extend2 string ) (response string){
-        s := fmt.Sprintf("{\"firstname\":\"%s\",\"lastname\":\"%s\",\"company\":\"%s\",\"email\":\"%s\",\"mobile\":\"%s\", \"extend1\":\"%s\",\"extend2\":\"%s\"}",
-                  firstname,lastname,company,email,mobile,extend1,extend2)
+        s := fmt.Sprintf("{\"firstname\":\"%s\",\"lastname\":\"%s\",\"company\":\"%s\",\"title\":\"%s\",\"email\":\"%s\",\"mobile\":\"%s\", \"extend1\":\"%s\",\"extend2\":\"%s\"}",
+                  firstname,lastname,company,title, email,mobile,extend1,extend2)
           fmt.Println("Create Response:>",s )
         var jsonStr = []byte(s);
         url := "http://127.0.0.1:9741/api/user/create"
@@ -182,25 +182,27 @@ func verifyImage( threshold float64, max int, file string) (response string){
 }
 func main() {
 
-    var response = verifyImage(0.7,1,"./photo1.jpg")
-    var updateImageRes GeneralResponse
+    var response = verifyImage(0.7,1,"./lebron2.jpg")
+  var updateImageRes GeneralResponse
     json.Unmarshal([]byte(response), &updateImageRes)
-    fmt.Printf("Umpage Image User Code : %d Message: %s", updateImageRes.Code, updateImageRes.Message)
+  fmt.Printf("Umpage Image User Code : %d Message: %s", updateImageRes.Code, updateImageRes.Message)
+
+  response  = listUser("")
     //updateBoothCheck("5ddc97509eff62678c6c0cf1" ,"BoothA", true)
     //updateBoothCheck("5ddc97509eff62678c6c0cf1" ,"BoothB", true)
     //updateBoothCheck("5ddc97509eff62678c6c0cf1" ,"BoothC", true)
     //updateBoothCheck("5ddc97509eff62678c6c0cf1" ,"BoothA", false)
-  //  updateUser("5ddc97509eff62678c6c0cf1","123@gmail",true)
-    findUser("5ddc97509eff62678c6c0cf1DDFDFDFDFDfddF")
+    updateUser("5dee074b9eff627680cfc59d","123@gmail","MVP2",true,true)
+//    findUser("5ddc97509eff62678c6c0cf1DDFDFDFDFDfddF")
   //  findUserFace("5ddc97509eff62678c6c0cf1")
   //  response  = verifyImage(0.7,1,"./photo3.jpg")
     //var updateImageRes GeneralResponse
     //json.Unmarshal([]byte(response), &updateImageRes)
     //fmt.Printf("Umpage Image User Code : %d Message: %s", updateImageRes.Code, updateImageRes.Message)
 //"5ddc97509eff62678c6c0cf1"
-  //  response  = listUser("")
-    /*
-     response  = createUser("YoungHwa", "Song", "Advantech","test@gmail.com","09876543","ext1","ext2" );
+
+  /*
+      response  = createUser("Lebron", "James", "NBA", "MVP","lebron.james@gmail.com","09876543","ext1","ext2" );
     fmt.Println("Create Response:>", response)
     var createRes CreateUserResponse
     json.Unmarshal([]byte(response), &createRes)
@@ -209,12 +211,13 @@ func main() {
       fmt.Printf("Fail Code : %d Message : %s", createRes.Code, createRes.Message)
       return
     }
-
-      response  = updateImage(createRes.ID,"./photo1.jpg")
-      var updateImageRes GeneralResponse
-      json.Unmarshal([]byte(response), &updateImageRes)
-      fmt.Printf("Umpage Image User Code : %d Message: %s", updateImageRes.Code, updateImageRes.Message)
-
+    */
+      //response  = updateImage("5dee074b9eff627680cfc59d","./lebron1.jpg")
+    //  var updateImageRes GeneralResponse
+    //  json.Unmarshal([]byte(response), &updateImageRes)
+    //  fmt.Printf("Umpage Image User Code : %d Message: %s", updateImageRes.Code, updateImageRes.Message)
+    //    response  = listUser("")
+      /*
     {
       response  = createUser("YuChio", "Sha", "Cloud","test2@gmail.com","09876543","ext1","ext2" );
       fmt.Println("Create Response:>", response)

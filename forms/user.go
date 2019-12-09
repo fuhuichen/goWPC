@@ -6,6 +6,7 @@ type CreateUserCommand struct {
 	Company     string  `json:"company" binding:"required"`
 	Email       string  `json:"email"`
 	Mobile      string  `json:"mobile"`
+	Title       string  `json:"title"`
 	Extend1     string  `json:"extend1"`
 	Extend2     string  `json:"extend2"`
 }
@@ -45,7 +46,9 @@ type UpdateUserCommand struct {
 	ID          string  `json:"id" binding:"required"`
 	Email       string  `json:"email"`
 	Mobile      string  `json:"mobile"`
+	Title       string   `json:"title"`
 	Extend1     string  `json:"extend1"`
 	Extend2     string  `json:"extend2"`
-	Registered  *bool    `json:"registered" validate:"exists"`
+	Registered         *bool   `json:"registered" validate:"exists"`
+	CounterRegistered  *bool   `json:"counterRegistered" validate:"exists"`
 }
