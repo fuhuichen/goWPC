@@ -69,11 +69,7 @@ func initWS(socket gowebsocket.Socket,messages chan frs.FRSWSResponse){
 func main() {
 
 	router := gin.Default()
-	router.Use(cors.New(cors.Config{
-        AllowOrigins:     []string{"*"},
-        AllowMethods:     []string{"GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"},
-        AllowHeaders:     []string{"X-Requested-With","content-type","access-control-allow-origin, access-control-allow-headers"},
-    }))
+	router.Use(cors.Default())
   socket := gowebsocket.New("ws://172.22.20.175:80/fcsrecognizedresult")
 	messages := make(chan frs.FRSWSResponse,10)
 	go initWS(socket,messages)
