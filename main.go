@@ -72,8 +72,7 @@ func main() {
 	router.Use(cors.New(cors.Config{
         AllowOrigins:     []string{"*"},
         AllowMethods:     []string{"GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"},
-        AllowHeaders:     []string{"X-Requested-With","content-type"},
-				ExposeHeaders:    []string{"Content-Length"},
+        AllowHeaders:     []string{"X-Requested-With","content-type","access-control-allow-origin, access-control-allow-headers"},
     }))
   socket := gowebsocket.New("ws://172.22.20.175:80/fcsrecognizedresult")
 	messages := make(chan frs.FRSWSResponse,10)
