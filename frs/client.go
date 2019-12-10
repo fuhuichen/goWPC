@@ -99,6 +99,19 @@ func  (client *FrsClient) FrsVerify(sessionId string,encoded string, rate float6
         }
         return ""
 }
+
+
+func  (client *FrsClient) FrsDeleteUser(sessionId string,personID string) (response string){
+        s := fmt.Sprintf("{\"session_id\": \"%s\",\"person_id\" : \"%s\"}",
+            sessionId,personID)
+      //    fmt.Println("Create Response:>",s )
+        var jsonStr = []byte(s);
+        url :=   fmt.Sprintf("http://%s/frs/cgi/deleteperson",client.IP )
+        var res =  callAPI(url,jsonStr);
+        var frsVerifyResponse FRSVerifyResponse
+        json.Unmarshal([]byte(string(res)), &frsVerifyResponse)
+        return ""
+}
 /*
 func main() {
 

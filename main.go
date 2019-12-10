@@ -11,6 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"goWPC/frs"
 	"github.com/sacOO7/gowebsocket"
+	"github.com/gin-contrib/cors"
 )
 
 var listen = true
@@ -68,6 +69,11 @@ func initWS(socket gowebsocket.Socket,messages chan frs.FRSWSResponse){
 func main() {
 
 	router := gin.Default()
+	router.Use(cors.New(cors.Config{
+        AllowOrigins:     []string{"*"},
+        AllowMethods:     []string{"GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"},
+        AllowHeaders:     []string{"Origin"},
+    }))
   socket := gowebsocket.New("ws://172.22.20.175:80/fcsrecognizedresult")
 	messages := make(chan frs.FRSWSResponse,10)
 	go initWS(socket,messages)

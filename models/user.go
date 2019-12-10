@@ -30,6 +30,7 @@ type User struct {
 	RegisterTime       int64        `json:"registerTime" bson:"registerTime"`
 	FaceRegistered     bool          `json:"faceRegistered" bson:"face_registerd"`
 	CheckList          []CheckRecord 	`json:"checkList" bson:"checkList"`
+	PersonID           string   `json:"personid" bson:"personid"`
 }
 type Face struct {
 	Image  string      `json:"image" bson:"image"`

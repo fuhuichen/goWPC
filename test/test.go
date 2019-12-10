@@ -182,7 +182,7 @@ func verifyImage( threshold float64, max int, file string) (response string){
 }
 func main() {
 
-    var response = verifyImage(0.7,1,"./lebron2.jpg")
+    var response = verifyImage(0.5,1,"./lebron2.jpg")
   var updateImageRes GeneralResponse
     json.Unmarshal([]byte(response), &updateImageRes)
   fmt.Printf("Umpage Image User Code : %d Message: %s", updateImageRes.Code, updateImageRes.Message)
@@ -192,7 +192,7 @@ func main() {
     //updateBoothCheck("5ddc97509eff62678c6c0cf1" ,"BoothB", true)
     //updateBoothCheck("5ddc97509eff62678c6c0cf1" ,"BoothC", true)
     //updateBoothCheck("5ddc97509eff62678c6c0cf1" ,"BoothA", false)
-    updateUser("5dee074b9eff627680cfc59d","123@gmail","MVP2",true,true)
+    updateUser("5dee11549eff625324ef77c5","123@gmail","MVP2",true,true)
 //    findUser("5ddc97509eff62678c6c0cf1DDFDFDFDFDfddF")
   //  findUserFace("5ddc97509eff62678c6c0cf1")
   //  response  = verifyImage(0.7,1,"./photo3.jpg")
@@ -201,7 +201,7 @@ func main() {
     //fmt.Printf("Umpage Image User Code : %d Message: %s", updateImageRes.Code, updateImageRes.Message)
 //"5ddc97509eff62678c6c0cf1"
 
-  /*
+    /*
       response  = createUser("Lebron", "James", "NBA", "MVP","lebron.james@gmail.com","09876543","ext1","ext2" );
     fmt.Println("Create Response:>", response)
     var createRes CreateUserResponse
@@ -212,12 +212,13 @@ func main() {
       return
     }
     */
-      //response  = updateImage("5dee074b9eff627680cfc59d","./lebron1.jpg")
+      response  = updateImage("5dee11549eff625324ef77c5","./lebron1.jpg")
     //  var updateImageRes GeneralResponse
-    //  json.Unmarshal([]byte(response), &updateImageRes)
-    //  fmt.Printf("Umpage Image User Code : %d Message: %s", updateImageRes.Code, updateImageRes.Message)
-    //    response  = listUser("")
-      /*
+      json.Unmarshal([]byte(response), &updateImageRes)
+      fmt.Printf("Umpage Image User Code : %d Message: %s", updateImageRes.Code, updateImageRes.Message)
+        response  = listUser("")
+
+        /*
     {
       response  = createUser("YuChio", "Sha", "Cloud","test2@gmail.com","09876543","ext1","ext2" );
       fmt.Println("Create Response:>", response)

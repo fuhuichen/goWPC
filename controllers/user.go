@@ -116,6 +116,20 @@ func (user *UserController) Delete(c *gin.Context) {
 		c.Abort()
 		return
 	}
+
+	profile, errg := userModel.Get(data.ID)
+	if errg != nil {
+		c.JSON(200, gin.H{"code":3, "message": "USER_NOT_EXIST"})
+		c.Abort()
+			return
+	}
+	var frsClient = new(frs.FrsClient)
+	frsClient.IP ="172.22.20.175:80";
+	if profile.PersonID != "" {
+		fmt.Println("Delete OldPerson-:>",errg)
+		frsClient.FrsDeleteUser(user.SessionID, profile.PersonID)
+	}
+
 	err := userModel.Delete(data.ID)
 	if err != nil {
 		c.JSON(200, gin.H{"code":5, "message": "OPERATION_FAIL"})
@@ -132,8 +146,19 @@ func (user *UserController) UpdateImage(c *gin.Context) {
 		c.Abort()
 		return
 	}
+	profile, errg := userModel.Get(data.ID)
+	if errg != nil {
+		c.JSON(200, gin.H{"code":3, "message": "USER_NOT_EXIST"})
+		c.Abort()
+			return
+	}
 	var frsClient = new(frs.FrsClient)
 	frsClient.IP ="172.22.20.175:80";
+	if profile.PersonID != "" {
+		fmt.Println("Delete OldPerson-:>",profile.PersonID)
+		frsClient.FrsDeleteUser(user.SessionID, profile.PersonID)
+	}
+
 	var frsPersonID = frsClient.FrsCreateUser(user.SessionID, data.ID,data.Image)
 	fmt.Println("get person id=", frsPersonID)
 	if  frsPersonID == "" {
