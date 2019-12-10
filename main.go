@@ -73,6 +73,7 @@ func main() {
         AllowOrigins:     []string{"*"},
         AllowMethods:     []string{"GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"},
         AllowHeaders:     []string{"Origin"},
+				ExposeHeaders:    []string{"Content-Length"},
     }))
   socket := gowebsocket.New("ws://172.22.20.175:80/fcsrecognizedresult")
 	messages := make(chan frs.FRSWSResponse,10)
