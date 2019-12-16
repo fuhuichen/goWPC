@@ -75,7 +75,7 @@ func main() {
 	go initWS(socket,messages)
 	var frsClient = new(frs.FrsClient)
 	frsClient.IP ="172.22.20.175:80";
-	var sessionID = frsClient.FrsLogin("Admin","123456")
+	var sessionID = frsClient.FrsLogin("goapi","1qaz@WSX")
 	fmt.Printf("FRS Login session ID= : %s\n", sessionID)
 	v1 := router.Group("/api")
 	{
