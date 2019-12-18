@@ -90,7 +90,7 @@
  function getUserFace() { return; }
 
  /**
-  * @api {post} /api/user/check  4.攤位簽到
+  * @api {post} /api/user/updateCheck  4.攤位簽到
   * @apiVersion 0.0.1
   * @apiName UpdateUserCheck
   * @apiGroup User

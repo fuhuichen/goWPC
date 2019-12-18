@@ -496,7 +496,7 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/api/user/check",
+    "url": "/api/user/updateCheck",
     "title": "4.攤位簽到",
     "version": "0.0.1",
     "name": "UpdateUserCheck",
