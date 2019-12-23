@@ -204,7 +204,7 @@ function updateUserCheck() { return; }
   * @apiSuccess {Object[]} userList 回傳用戶資訊陣列(物件參考/api/user/info)
   */
   function faceRecognition() { return; }
-
+  /*
   type OrderItem struct {
   	Name          string         			`json:"name" bson:"name"`
   	Amount        int64								`json:"amount" bson:"amount"`
@@ -234,6 +234,7 @@ function updateUserCheck() { return; }
   	UserInfo           OrderUser			`json:"orderUser" bson:"orderUser"`
   	List          		 []OrderItem 	  `json:"orderList" bson:"checkUser"`
   }
+  */
 
   /**
    * @api {post} /api/order/create 1.建立點餐資訊
@@ -244,27 +245,26 @@ function updateUserCheck() { return; }
    * @apiDescription 建立點餐資訊，使用者UserId需要為資料庫中之用戶Id
    *
    * @apiParam     {String}   UserId          使用者ID
-   * @apiParam     {Object[]}   OrderList        點餐列表
-   * @apiParam     {String}  OrderList.name      餐點名稱
-   * @apiParam     {Number}  OrderList.amount    餐點數量
-   * @apiParam     {Number}  OrderList.ice       餐點冰度
-   * @apiParam     {Number}  OrderList.sugar     餐點甜度
-   * @apiParam     {Number}  OrderList.size      餐點大小
-   * @apiParam     {Number}  OrderList.padding   附加品項
+   * @apiParam     {Object[]}   orderList        點餐列表
+   * @apiParam     {String}  orderList.name      餐點名稱
+   * @apiParam     {Number}  orderList.amount    餐點數量
+   * @apiParam     {String}  orderList.ice       餐點冰度
+   * @apiParam     {String}  orderList.sugar     餐點甜度
+   * @apiParam     {String}  orderList.size      餐點大小
+   * @apiParam     {String}  orderList.padding   附加品項
 
    * @apiSuccess {Number} code  錯誤代碼
    *                 0:SUCCESS(成功)
    *                 1:INVALID_PARAMETERS(參數缺少或錯誤)
-   *                 2:USER_EXIST(用戶已存在)
    *                 5:OPERATION_FAIL(建立失敗)
    * @apiSuccess {String} message  錯誤訊息
    * @apiSuccess {String} orderNumber   點餐代碼 (若是成功建立)
    *
    */
-
+   function CreateOrder() { return; }
 
    /**
-    * @api {post} /api/order/last 2.建立用戶最後點餐資訊
+    * @api {post} /api/order/last 2.取得最後點餐資訊
     * @apiVersion 0.0.1
     * @apiName FindLastOrder
     * @apiGroup Order
@@ -272,13 +272,81 @@ function updateUserCheck() { return; }
     * @apiDescription 取得使用者(UserId)最後點餐記錄
     *
     * @apiParam     {String}     UserId          使用者ID
-
     * @apiSuccess {Number} code  錯誤代碼
     *                 0:SUCCESS(成功)
     *                 1:INVALID_PARAMETERS(參數缺少或錯誤)
-    *                 2:USER_EXIST(用戶已存在)
     *                 6:NO_ORDER_EXIST(用戶沒有點過餐)
-    * @apiSuccess {String} message  錯誤訊息
-    * @apiSuccess {String} order    點餐資訊
+    * @apiSuccess     {String}  message  錯誤訊息
+    * @apiSuccess     {Object}  order                    點餐資訊
+    * @apiSuccess     {String}  orderNumber              點餐代碼
+    * @apiSuccess     {Number}  time                     點餐時間(UNIX TIME)
+    * @apiSuccess     {String}  order.orderList           點餐資訊
+    * @apiSuccess     {String}  order.orderList.name      餐點名稱
+    * @apiSuccess     {Number}  order.orderList.amount    餐點數量
+    * @apiSuccess     {String}  order.orderList.ice       餐點冰度
+    * @apiSuccess     {String}  order.orderList.sugar     餐點甜度
+    * @apiSuccess     {String}  order.orderList.size      餐點大小
+    * @apiSuccess     {String}  order.orderList.padding   附加品項
+    * @apiSuccess     {Object}  order.orderUser             用戶資訊
+    * @apiSuccess     {String}  order.orderUser.id           用戶 ID
+    * @apiSuccess     {String}  order.orderUser.firstname    用戶名
+    * @apiSuccess     {String}  order.orderUser.lastname     用戶姓
+    * @apiSuccess     {String}  order.orderUser.email       用戶email
+    * @apiSuccess     {String}  order.orderUser.company     用戶公司名稱
+    * @apiSuccess     {String}  order.orderUser.mobile      用戶手機號碼
     *
     */
+    function FindLastOrder() { return; }
+
+
+    /**
+     * @api {post} /api/order/list  3.列出點餐記錄
+     * @apiVersion 0.0.1
+     * @apiName ListOrder
+     * @apiGroup Order
+     *
+     * @apiDescription 取得起始時間之後的所有點餐紀錄
+     *
+     * @apiParam     {Number}     time          起始時間(UNIX TIMESTAMP)
+
+     * @apiSuccess {Number} code  錯誤代碼
+     *                 0:SUCCESS(成功)
+     *                 1:INVALID_PARAMETERS(參數缺少或錯誤)
+     * @apiSuccess     {String}    message  錯誤訊息
+     * @apiSuccess     {Object[]}  orders  點餐資訊,參考/api/order/last
+     *
+     */
+     function FindLastOrder() { return; }
+
+     /**
+      * @api {post} /api/order/isSpecialBonus  4.是否取得今日獎勵
+      * @apiVersion 0.0.1
+      * @apiName isSpecialBonus
+      * @apiGroup Order
+      *
+      * @apiDescription 取得使用者(UserId)是否領過今日獎勵
+      *
+      * @apiParam     {String}     UserId          使用者ID
+      * @apiSuccess     {Number} code  錯誤代碼
+      *                 0:SUCCESS(成功)
+      *                 1:INVALID_PARAMETERS(參數缺少或錯誤)
+      * @apiSuccess     {String}  message  錯誤訊息
+      * @apiSuccess     {Object}  isSpecialBonus           是否領過今日獎勵
+      */
+      function isSpecialBonus() { return;
+
+        /**
+         * @api {post} /api/order/setSpecialBonus  5.取得今日獎勵
+         * @apiVersion 0.0.1
+         * @apiName setSpecialBonus
+         * @apiGroup Order
+         *
+         * @apiDescription 將使用者(UserId)設定成已領過今日獎勵
+         *
+         * @apiParam       {String}     UserId          使用者ID
+         * @apiSuccess     {Number} code  錯誤代碼
+         *                 0:SUCCESS(成功)
+         *                 1:INVALID_PARAMETERS(參數缺少或錯誤)
+         * @apiSuccess     {String}  message  錯誤訊息
+         */
+         function setSpecialBonus() { return; }
