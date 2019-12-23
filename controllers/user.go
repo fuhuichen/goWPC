@@ -10,6 +10,7 @@ import (
 )
 
 var userModel = new(models.UserModel)
+var orderModel = new(models.OrderModel)
 
 type UserController struct{
 	SessionID string
@@ -24,7 +25,7 @@ func (user *UserController) Create(c *gin.Context) {
 		return
 	}
 
-	_, err := userModel.GetByName(data.FirstName, data.LastName,data.Company)
+	_, err := userModel.GetByName(data.FirstName, data.LastName,data.Company,data.Email)
 	fmt.Println("get by name err:>", err)
 	if err == nil {
 		c.JSON(200, gin.H{"code":2, "message": "USER_EXIST"})
@@ -142,6 +143,7 @@ func (user *UserController) Delete(c *gin.Context) {
 func (user *UserController) UpdateImage(c *gin.Context) {
 	var data forms.UpdateUserImageCommand
 	if c.BindJSON(&data) != nil {
+		fmt.Println("Update Image InvalidParameters")
 		c.JSON(200, gin.H{"code":1, "message": "INVALID_PARAMETERS"})
 		c.Abort()
 		return
@@ -167,10 +169,7 @@ func (user *UserController) UpdateImage(c *gin.Context) {
 		return
 	}
 
-	data.PersonID = frsPersonID
-  data.FaceRegistered = true
-
-	err := userModel.UpdateImage(data)
+	err := userModel.UpdateImage(data,frsPersonID)
 	if err != nil {
 		c.JSON(200, gin.H{"code":5, "message": "OPERATION_FAIL"})
 		c.Abort()
@@ -253,4 +252,28 @@ func (user *UserController) VerifyImage(c *gin.Context) {
 	fmt.Println("Find Person =>", profile)
 	profileList[0] = profile
 	c.JSON(200, gin.H{"code":0, "message": "SUCCESS", "userList":profileList})
+}
+
+
+
+func (user *UserController) CreateOrder(c *gin.Context) {
+	var data forms.CreateOrderCommand
+	if c.BindJSON(&data) != nil {
+		c.JSON(200, gin.H{"code":1, "message": "INVALID_PARAMETERS"})
+		c.Abort()
+		return
+	}
+	profile, errg := userModel.Get(data.UserId)
+	if errg != nil {
+		c.JSON(200, gin.H{"code":3, "message": "USER_NOT_EXIST"})
+		c.Abort()
+			return
+	}
+	_,err2 := orderModel.Create(profile,data)
+	if err2 != nil {
+		c.JSON(200, gin.H{"code":5, "message": "OPERATION_FAIL"})
+		c.Abort()
+			return
+	}
+	c.JSON(200, gin.H{"code":0, "message": "SUCCESS"})
 }

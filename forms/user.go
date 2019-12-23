@@ -18,8 +18,6 @@ type ListUserCommand struct {
 type UpdateUserImageCommand struct {
 	ID              string   `json:"id" binding:"required"`
 	Image           string   `json:"image" binding:"required"`
-	PersonID        string   `json:"personid""`
-	FaceRegistered  bool     `json:"face_registered"`
 }
 
 type VerifyImageCommand struct {

@@ -10,15 +10,15 @@
  * @apiName PostUser
  * @apiGroup User
  *
- * @apiDescription 建立新用戶, company+firstname+lastname是唯一
+ * @apiDescription 建立新用戶, company+firstname+lastname+email是唯一
  *
  * @apiParam {String}   firstname    用戶名(必填)
  * @apiParam {String}   lastname     用戶姓(必填)
  * @apiParam {String}   email       用戶email(必填)
- * @apiParam {String}   company     用戶公司名稱
+ * @apiParam {String}   company     用戶公司名稱(必填)
  * @apiParam {String}   title       用戶公司職稱
  * @apiParam {String}   mobile      用戶手機號碼
- ** @apiParam {String}  extend1     自訂資料1
+ * @apiParam {String}   extend1     自訂資料1
  * @apiParam  {String}  extend2     自訂資料2
 
  * @apiSuccess {Number} code  錯誤代碼
@@ -204,3 +204,81 @@ function updateUserCheck() { return; }
   * @apiSuccess {Object[]} userList 回傳用戶資訊陣列(物件參考/api/user/info)
   */
   function faceRecognition() { return; }
+
+  type OrderItem struct {
+  	Name          string         			`json:"name" bson:"name"`
+  	Amount        int64								`json:"amount" bson:"amount"`
+  	Size          string         			`json:"size" bson:"size"`
+  	Ice           string         			`json:"ice" bson:"ice"`
+  	Sugar         string         		  `json:"sugar" bson:"sugar"`
+  	Padding       string           		`json:"padding" bson:"padding"`
+  }
+
+
+  type OrderUser struct {
+  	FirstName    string         `json:"firstname" bson:"firstname"`
+  	LastName     string         `json:"lastname" bson:"lastname"`
+  	Email        string         `json:"email"  bson:"email"`
+  	Company      string         `json:"company" bson:"company"`
+  	Title        string     	  `json:"title" bson:"title"`
+  	Mobile       string         `json:"mobile" bson:"mobile"`
+  	Extend1      string 			  `json:"extend1" bson:"extend1"`
+  	Extend2      string 				`json:"extend2" bson:"extend2"`
+  }
+
+  type Order struct {
+  	ID           		   bson.ObjectId  `json:"id" bson:"_id,omitempty"`
+  	OrderNumber        int64         	`json:"orderNumber" bson:"orderNumber"`
+  	UserId    	       string         `json:"userid" bson:"userid"`
+  	Time               int64          `json:"time" bson:"time"`
+  	UserInfo           OrderUser			`json:"orderUser" bson:"orderUser"`
+  	List          		 []OrderItem 	  `json:"orderList" bson:"checkUser"`
+  }
+
+  /**
+   * @api {post} /api/order/create 1.建立點餐資訊
+   * @apiVersion 0.0.1
+   * @apiName CreateOrder
+   * @apiGroup Order
+   *
+   * @apiDescription 建立點餐資訊，使用者UserId需要為資料庫中之用戶Id
+   *
+   * @apiParam     {String}   UserId          使用者ID
+   * @apiParam     {Object[]}   OrderList        點餐列表
+   * @apiParam     {String}  OrderList.name      餐點名稱
+   * @apiParam     {Number}  OrderList.amount    餐點數量
+   * @apiParam     {Number}  OrderList.ice       餐點冰度
+   * @apiParam     {Number}  OrderList.sugar     餐點甜度
+   * @apiParam     {Number}  OrderList.size      餐點大小
+   * @apiParam     {Number}  OrderList.padding   附加品項
+
+   * @apiSuccess {Number} code  錯誤代碼
+   *                 0:SUCCESS(成功)
+   *                 1:INVALID_PARAMETERS(參數缺少或錯誤)
+   *                 2:USER_EXIST(用戶已存在)
+   *                 5:OPERATION_FAIL(建立失敗)
+   * @apiSuccess {String} message  錯誤訊息
+   * @apiSuccess {String} orderNumber   點餐代碼 (若是成功建立)
+   *
+   */
+
+
+   /**
+    * @api {post} /api/order/last 2.建立用戶最後點餐資訊
+    * @apiVersion 0.0.1
+    * @apiName FindLastOrder
+    * @apiGroup Order
+    *
+    * @apiDescription 取得使用者(UserId)最後點餐記錄
+    *
+    * @apiParam     {String}     UserId          使用者ID
+
+    * @apiSuccess {Number} code  錯誤代碼
+    *                 0:SUCCESS(成功)
+    *                 1:INVALID_PARAMETERS(參數缺少或錯誤)
+    *                 2:USER_EXIST(用戶已存在)
+    *                 6:NO_ORDER_EXIST(用戶沒有點過餐)
+    * @apiSuccess {String} message  錯誤訊息
+    * @apiSuccess {String} order    點餐資訊
+    *
+    */

@@ -13,6 +13,7 @@ import (
 type CheckRecord struct {
 	BoothName     string         			`json:"boothName" bson:"boothName"`
 	Checked   		bool						    `json:"checked" bson:"checked"`
+	Time       		int64						    `json:"time" bson:"time"`
 }
 
 type User struct {
@@ -30,7 +31,7 @@ type User struct {
 	RegisterTime       int64        `json:"registerTime" bson:"registerTime"`
 	FaceRegistered     bool          `json:"faceRegistered" bson:"face_registerd"`
 	CheckList          []CheckRecord 	`json:"checkList" bson:"checkList"`
-	PersonID           string   `json:"personid" bson:"personid"`
+	PersonID           string         `json:"personid" bson:"personid"`
 }
 type Face struct {
 	Image  string      `json:"image" bson:"image"`
@@ -69,10 +70,12 @@ func (m *UserModel) List(keyword string ) (list []User, err error) {
 func (m *UserModel) GetByName(
 		firstname string,
 		lastname string,
-		company string) (user User, err error) {
+		company string,
+		email string) (user User, err error) {
 	collection := dbConnect.Use("wpc", "users")
 	err = collection.Find(
-		bson.M{"firstname":firstname,"lastname":lastname,"company":company}).One(&user)
+		bson.M{"firstname":firstname,"lastname":lastname,
+			"company":company,"email":email}).One(&user)
 	return user, err
 }
 
@@ -129,11 +132,12 @@ func (m *UserModel) UpdateCheck( f forms.UpdateCheckCommand) (err error) {
     fmt.Println(element)
 		if element.BoothName == f.BoothName {
 			//fmt.Println("Update booth :>"+element.BoothName)
-			cList  = append(cList,bson.M{"boothName": f.BoothName, "checked":element.Checked } )
+			ctime := time.Now().Unix()
+			cList  = append(cList,bson.M{"boothName": f.BoothName, "checked":element.Checked ,"time":ctime} )
 			find = true
 		}else{
 			//fmt.Println("Old booth :>"+ element.BoothName)
-			cList  = append(cList,bson.M{"boothName": element.BoothName, "checked":element.Checked } )
+			cList  = append(cList,bson.M{"boothName": element.BoothName, "checked":element.Checked,"time":element.Time} )
 		}
   }
 	if find ==false  {
@@ -147,9 +151,9 @@ func (m *UserModel) UpdateCheck( f forms.UpdateCheckCommand) (err error) {
 	return err
 }
 
-func (m *UserModel) UpdateImage( f forms.UpdateUserImageCommand) (err error) {
+func (m *UserModel) UpdateImage( f forms.UpdateUserImageCommand , personID string) (err error) {
 	collection := dbConnect.Use("wpc", "users")
-	data := bson.M{"$set": bson.M{"image": f.Image,"personid": f.PersonID, "face_registerd": f.FaceRegistered }}
+	data := bson.M{"$set": bson.M{"image": f.Image,"personid": personID, "face_registerd": true }}
 	err = collection.UpdateId(bson.ObjectIdHex(f.ID), data)
 	return err
 }
