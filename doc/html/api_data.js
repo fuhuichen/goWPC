@@ -42,7 +42,7 @@ define({ "api": [
             "type": "Number",
             "optional": false,
             "field": "code",
-            "description": "<p>錯誤代碼 0:SUCCESS(成功) 1:INVALID_PARAMETERS(參數缺少或錯誤 3:USER_NOT_EXIST(用戶不存在) 4:INVALID_IMAGE(圖片格式不符)</p>"
+            "description": "<p>錯誤代碼 0:SUCCESS(成功),userList若為空則代表沒有辨識到符合的臉部 1:INVALID_PARAMETERS(參數缺少或錯誤 4:INVALID_IMAGE(圖片格式不符)</p>"
           },
           {
             "group": "Success 200",
@@ -149,7 +149,7 @@ define({ "api": [
             "type": "String",
             "optional": false,
             "field": "orderNumber",
-            "description": "<p>點餐代碼 (若是成功建立)</p>"
+            "description": "<p>點餐代碼,四碼(例如0001)，每天(或超過9999)重置(若是成功建立)</p>"
           }
         ]
       }
@@ -207,7 +207,7 @@ define({ "api": [
             "type": "String",
             "optional": false,
             "field": "orderNumber",
-            "description": "<p>點餐代碼</p>"
+            "description": "<p>點餐代碼, 四碼(例如0001)，每天(或超過9999)重置</p>"
           },
           {
             "group": "Success 200",

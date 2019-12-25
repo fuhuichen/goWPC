@@ -197,9 +197,8 @@ function updateUserCheck() { return; }
   * @apiParam {Numnber} max  最多回傳用戶數目 (目前只支援1個)
   *
   * @apiSuccess {Number} code  錯誤代碼
-  *                 0:SUCCESS(成功)
+  *                 0:SUCCESS(成功),userList若為空則代表沒有辨識到符合的臉部
   *                 1:INVALID_PARAMETERS(參數缺少或錯誤
-  *                 3:USER_NOT_EXIST(用戶不存在)
   *                 4:INVALID_IMAGE(圖片格式不符)
   * @apiSuccess {Object[]} userList 回傳用戶資訊陣列(物件參考/api/user/info)
   */
