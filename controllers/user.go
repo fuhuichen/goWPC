@@ -269,11 +269,95 @@ func (user *UserController) CreateOrder(c *gin.Context) {
 		c.Abort()
 			return
 	}
-	_,err2 := orderModel.Create(profile,data)
+	orderNumber,err2 := orderModel.Create(profile,data)
 	if err2 != nil {
 		c.JSON(200, gin.H{"code":5, "message": "OPERATION_FAIL"})
 		c.Abort()
 			return
 	}
-	c.JSON(200, gin.H{"code":0, "message": "SUCCESS"})
+	c.JSON(200, gin.H{"code":0, "message": "SUCCESS","orderNumber":orderNumber})
+}
+
+
+func (user *UserController) ListOrders(c *gin.Context) {
+	fmt.Println("List Orders")
+	var data forms.ListOrderCommand
+	if c.BindJSON(&data) != nil {
+		c.JSON(200, gin.H{"code":1, "message": "INVALID_PARAMETERS"})
+		c.Abort()
+		return
+	}
+	list, err := orderModel.List(data.Time)
+	if err != nil || list == nil{
+		var orderList = make([]models.Order, 0)
+		c.JSON(200, gin.H{"code":0, "message": "SUCCESS", "orders": orderList})
+		c.Abort()
+	} else {
+		c.JSON(200, gin.H{"code":0, "message": "SUCCESS", "orders": list})
+	}
+}
+
+func (user *UserController) FindOrder(c *gin.Context) {
+	//fmt.Println("List Orders")
+	var data forms.FindLastOrderCommand
+	if c.BindJSON(&data) != nil {
+		c.JSON(200, gin.H{"code":1, "message": "INVALID_PARAMETERS"})
+		c.Abort()
+		return
+	}
+	list, err := orderModel.Find(data)
+	if err != nil || list == nil || len(list) == 0 {
+		c.JSON(200, gin.H{"code":1, "message": "NO_ORDER_EXIST"})
+		c.Abort()
+	} else {
+		c.JSON(200, gin.H{"code":0, "message": "SUCCESS", "order": list[0]})
+	}
+}
+
+
+
+func (user *UserController) FindBonus(c *gin.Context) {
+	//fmt.Println("List Orders")
+	var data forms.FindLastOrderCommand
+	if c.BindJSON(&data) != nil {
+		c.JSON(200, gin.H{"code":1, "message": "INVALID_PARAMETERS"})
+		c.Abort()
+		return
+	}
+	_, errg := userModel.Get(data.UserId)
+	if errg != nil {
+		c.JSON(200, gin.H{"code":3, "message": "USER_NOT_EXIST"})
+		c.Abort()
+			return
+	}
+	isSpecialBonus, err := orderModel.FindBonus(data)
+	if err != nil  {
+		c.JSON(200, gin.H{"code":0, "message": "SUCCESS", "order": false})
+		c.Abort()
+	} else {
+		c.JSON(200, gin.H{"code":0, "message": "SUCCESS", "isSpecialBonus": isSpecialBonus})
+	}
+}
+
+func (user *UserController) SetBonus(c *gin.Context) {
+	//fmt.Println("List Orders")
+	var data forms.FindLastOrderCommand
+	if c.BindJSON(&data) != nil {
+		c.JSON(200, gin.H{"code":1, "message": "INVALID_PARAMETERS"})
+		c.Abort()
+		return
+	}
+	_, errg := userModel.Get(data.UserId)
+	if errg != nil {
+		c.JSON(200, gin.H{"code":3, "message": "USER_NOT_EXIST"})
+		c.Abort()
+			return
+	}
+	err := orderModel.SetBonus(data)
+	if err != nil  {
+		c.JSON(200, gin.H{"code":5, "message": "OPERATION_FAIL"})
+		c.Abort()
+	} else {
+		c.JSON(200, gin.H{"code":0, "message": "SUCCESS"})
+	}
 }

@@ -92,6 +92,10 @@ func main() {
 		v1.POST("/user/updateImage", userController.UpdateImage)
 		v1.POST("/fr/verification", userController.VerifyImage)
 		v1.POST("/order/create", userController.CreateOrder)
+		v1.POST("/order/list", userController.ListOrders)
+		v1.POST("/order/last", userController.FindOrder)
+		v1.POST("/order/isSpecialBonus", userController.FindBonus)
+		v1.POST("/order/setSpecialBonus", userController.SetBonus)
 	}
 
 	router.NoRoute(func(c *gin.Context) {

@@ -1,7 +1,7 @@
 package main
 
 import (
-  "encoding/json"
+  //"encoding/json"
   "fmt"
 	"net/http"
   "bytes"
@@ -120,14 +120,49 @@ func listUser(keyword string ) (response string){
         url := "http://127.0.0.1:9741/api/user/list"
         return callAPI(url,jsonStr);
 }
-
+/*
+* @apiParam     {String}  orderList.name      餐點名稱
+* @apiParam     {Number}  orderList.amount    餐點數量
+* @apiParam     {String}  orderList.ice       餐點冰度
+* @apiParam     {String}  orderList.sugar     餐點甜度
+* @apiParam     {String}  orderList.size      餐點大小
+* @apiParam     {String}  orderList.padding   附加品項
+*/
 func createOrder(id string ) (response string){
-        s := fmt.Sprintf("{\"id\":\"%s\",\"boothName\":\"%s\",\"checked\":%t}",id,boothName,checked)
+        s := fmt.Sprintf("{\"userId\":\"%s\",\"orderList\":[{\"name\":\"珍珠奶茶\",\"amount\":1,\"ice\":\"少冰\",\"sugar\":\"半糖\",\"size\":\"Large\",\"padding\":\"珍珠\"}]}",id)
         fmt.Println("Create Response:>",s )
         var jsonStr = []byte(s);
         url := "http://127.0.0.1:9741/api/order/create"
         return callAPI(url,jsonStr);
 }
+
+func  listOrder(time int64 ) (response string){
+        s := fmt.Sprintf("{\"time\":%d}",time)
+        var jsonStr = []byte(s);
+        url := "http://127.0.0.1:9741/api/order/list"
+        return callAPI(url,jsonStr);
+}
+
+func lastOrder(id string ) (response string){
+        s := fmt.Sprintf("{\"userId\":\"%s\"}",id)
+        var jsonStr = []byte(s);
+        url := "http://127.0.0.1:9741/api/order/last"
+        return callAPI(url,jsonStr);
+}
+
+func isBonus(id string ) (response string){
+        s := fmt.Sprintf("{\"userId\":\"%s\"}",id)
+        var jsonStr = []byte(s);
+        url := "http://127.0.0.1:9741/api/order/isSpecialBonus"
+        return callAPI(url,jsonStr);
+}
+func setBonus(id string ) (response string){
+        s := fmt.Sprintf("{\"userId\":\"%s\"}",id)
+        var jsonStr = []byte(s);
+        url := "http://127.0.0.1:9741/api/order/setSpecialBonus"
+        return callAPI(url,jsonStr);
+}
+
 
 
 
@@ -199,11 +234,15 @@ func verifyImage( threshold float64, max int, file string) (response string){
 }
 func main() {
 
-    var response = verifyImage(0.5,1,"./lebron2.jpg")
-  var updateImageRes GeneralResponse
-    json.Unmarshal([]byte(response), &updateImageRes)
-  fmt.Printf("Umpage Image User Code : %d Message: %s", updateImageRes.Code, updateImageRes.Message)
-
+  //  var response = verifyImage(0.5,1,"./lebron2.jpg")
+  //var updateImageRes GeneralResponse
+  //  json.Unmarshal([]byte(response), &updateImageRes)
+  //fmt.Printf("Umpage Image User Code : %d Message: %s", updateImageRes.Code, updateImageRes.Message)
+  //createOrder("5e02c2fc9eff623e2c9f85c1")
+  //listOrder(1)
+  //lastOrder("5e02c2fc9eff623e2c9f85c1")
+  setBonus("5e02c2fc9eff623e2c9f85c1")
+  isBonus("5e02c2fc9eff623e2c9f85c1")
 //  response  = listUser("")
 //  var listUserRes ListUserResponse
   //json.Unmarshal([]byte(response), &listUserRes)

@@ -12,11 +12,11 @@ type OrderItem struct {
 
 type CreateOrderCommand struct {
 	UserId      string  `json:"userId"  bson:"userId" binding:"required"`
-	OrderList   OrderItem  `json:"orderList"  bson:"OrderList"  binding:"required"`
+	OrderList   []OrderItem  `json:"orderList"  bson:"OrderList"  binding:"required"`
 }
 
 type ListOrderCommand struct {
-	Time  int64    `json:"startTime"`
+	Time  int64    `json:"time"  bson:"time" binding:"required"`
 }
 
 

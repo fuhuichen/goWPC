@@ -258,7 +258,7 @@ function updateUserCheck() { return; }
    *                 1:INVALID_PARAMETERS(參數缺少或錯誤)
    *                 5:OPERATION_FAIL(建立失敗)
    * @apiSuccess {String} message  錯誤訊息
-   * @apiSuccess {String} orderNumber   點餐代碼 (若是成功建立)
+   * @apiSuccess {String} orderNumber   點餐代碼,四碼(例如0001)，每天(或超過9999)重置(若是成功建立)
    *
    */
    function CreateOrder() { return; }
@@ -278,7 +278,7 @@ function updateUserCheck() { return; }
     *                 6:NO_ORDER_EXIST(用戶沒有點過餐)
     * @apiSuccess     {String}  message  錯誤訊息
     * @apiSuccess     {Object}  order                    點餐資訊
-    * @apiSuccess     {String}  orderNumber              點餐代碼
+    * @apiSuccess     {String}  orderNumber              點餐代碼, 四碼(例如0001)，每天(或超過9999)重置
     * @apiSuccess     {Number}  time                     點餐時間(UNIX TIME)
     * @apiSuccess     {String}  order.orderList           點餐資訊
     * @apiSuccess     {String}  order.orderList.name      餐點名稱
