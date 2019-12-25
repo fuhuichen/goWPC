@@ -56,14 +56,14 @@
   * @apiSuccess  {String}   mobile      用戶手機號碼
   * @apiSuccess   {Boolean}  user.registered 是否已報到
   * @apiSuccess   {Boolean}  user.counterRegistered 是否由櫃台報到
-  * @apiSuccess   {Boolean}  user.registerTime    報到時間
+  * @apiSuccess   {Number}  user.registerTime    報到時間(UNIX TIMESTAMP)
   * @apiSuccess   {Boolean}  user.faceRegistered 是否已註冊照片
   * @apiSuccess   {Object[]} user.checkList     用戶到攤位簽到紀錄
   * @apiSuccess   {String}   user.extend1     自訂資料1
   * @apiSuccess    {String}  user.extend2     自訂資料2
   * @apiSuccess   {String}   user.checkList.boothName  簽到紀錄-攤位名稱
   * @apiSuccess   {Boolean}  user.checkList.checked  簽到紀錄-是否已簽到
-  * @apiSuccess   {Number}   user.checkList.time 簽到紀錄-簽到時間unix time
+  * @apiSuccess   {Number}   user.checkList.time 簽到紀錄-簽到時間(UNIX TIMESTAMP)
   *
   */
 
@@ -229,7 +229,7 @@ function updateUserCheck() { return; }
   type Order struct {
   	ID           		   bson.ObjectId  `json:"id" bson:"_id,omitempty"`
   	OrderNumber        int64         	`json:"orderNumber" bson:"orderNumber"`
-  	UserId    	       string         `json:"userid" bson:"userid"`
+  	userId    	       string         `json:"userId" bson:"userId"`
   	Time               int64          `json:"time" bson:"time"`
   	UserInfo           OrderUser			`json:"orderUser" bson:"orderUser"`
   	List          		 []OrderItem 	  `json:"orderList" bson:"checkUser"`
@@ -242,9 +242,9 @@ function updateUserCheck() { return; }
    * @apiName CreateOrder
    * @apiGroup Order
    *
-   * @apiDescription 建立點餐資訊，使用者UserId需要為資料庫中之用戶Id
+   * @apiDescription 建立點餐資訊，使用者userId需要為資料庫中之用戶Id
    *
-   * @apiParam     {String}   UserId          使用者ID
+   * @apiParam     {String}   userId          使用者ID
    * @apiParam     {Object[]}   orderList        點餐列表
    * @apiParam     {String}  orderList.name      餐點名稱
    * @apiParam     {Number}  orderList.amount    餐點數量
@@ -269,9 +269,9 @@ function updateUserCheck() { return; }
     * @apiName FindLastOrder
     * @apiGroup Order
     *
-    * @apiDescription 取得使用者(UserId)最後點餐記錄
+    * @apiDescription 取得使用者(userId)最後點餐記錄
     *
-    * @apiParam     {String}     UserId          使用者ID
+    * @apiParam     {String}     userId          使用者ID
     * @apiSuccess {Number} code  錯誤代碼
     *                 0:SUCCESS(成功)
     *                 1:INVALID_PARAMETERS(參數缺少或錯誤)
@@ -324,9 +324,9 @@ function updateUserCheck() { return; }
       * @apiName isSpecialBonus
       * @apiGroup Order
       *
-      * @apiDescription 取得使用者(UserId)是否領過今日獎勵
+      * @apiDescription 取得使用者(userId)是否領過今日獎勵
       *
-      * @apiParam     {String}     UserId          使用者ID
+      * @apiParam     {String}     userId          使用者ID
       * @apiSuccess     {Number} code  錯誤代碼
       *                 0:SUCCESS(成功)
       *                 1:INVALID_PARAMETERS(參數缺少或錯誤)
@@ -341,9 +341,9 @@ function updateUserCheck() { return; }
          * @apiName setSpecialBonus
          * @apiGroup Order
          *
-         * @apiDescription 將使用者(UserId)設定成已領過今日獎勵
+         * @apiDescription 將使用者(userId)設定成已領過今日獎勵
          *
-         * @apiParam       {String}     UserId          使用者ID
+         * @apiParam       {String}     userId          使用者ID
          * @apiSuccess     {Number} code  錯誤代碼
          *                 0:SUCCESS(成功)
          *                 1:INVALID_PARAMETERS(參數缺少或錯誤)

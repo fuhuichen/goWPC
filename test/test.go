@@ -121,6 +121,14 @@ func listUser(keyword string ) (response string){
         return callAPI(url,jsonStr);
 }
 
+func createOrder(id string ) (response string){
+        s := fmt.Sprintf("{\"id\":\"%s\",\"boothName\":\"%s\",\"checked\":%t}",id,boothName,checked)
+        fmt.Println("Create Response:>",s )
+        var jsonStr = []byte(s);
+        url := "http://127.0.0.1:9741/api/order/create"
+        return callAPI(url,jsonStr);
+}
+
 
 
 
@@ -196,12 +204,12 @@ func main() {
     json.Unmarshal([]byte(response), &updateImageRes)
   fmt.Printf("Umpage Image User Code : %d Message: %s", updateImageRes.Code, updateImageRes.Message)
 
-  response  = listUser("")
-  var listUserRes ListUserResponse
-  json.Unmarshal([]byte(response), &listUserRes)
-  for _, s := range listUserRes.UserList {
-    deleteUser(s.ID)
-  }
+//  response  = listUser("")
+//  var listUserRes ListUserResponse
+  //json.Unmarshal([]byte(response), &listUserRes)
+//  for _, s := range listUserRes.UserList {
+  //  deleteUser(s.ID)
+  //}
     //updateBoothCheck("5ddc97509eff62678c6c0cf1" ,"BoothA", true)
     //updateBoothCheck("5ddc97509eff62678c6c0cf1" ,"BoothB", true)
     //updateBoothCheck("5ddc97509eff62678c6c0cf1" ,"BoothC", true)
@@ -216,7 +224,7 @@ func main() {
 //"5ddc97509eff62678c6c0cf1"
 
     /*
-      response  = createUser("Lebron", "James", "NBA", "MVP","lebron.james@gmail.com","09876543","ext1","ext2" );
+    response  = createUser("Lebron", "James", "NBA", "MVP","lebron.james@gmail.com","09876543","ext1","ext2" );
     fmt.Println("Create Response:>", response)
     var createRes CreateUserResponse
     json.Unmarshal([]byte(response), &createRes)
@@ -227,10 +235,10 @@ func main() {
     }
 
       response  = updateImage(createRes.ID,"./lebron1.jpg")
-    //  var updateImageRes GeneralResponse
       json.Unmarshal([]byte(response), &updateImageRes)
       fmt.Printf("Umpage Image User Code : %d Message: %s", updateImageRes.Code, updateImageRes.Message)
-        */
+      */
+    //  5e02c2fc9eff623e2c9f85c1"
       //  updateUser("5de4af2f1cce9e045cf42154","YYY@gmail","Manager",false,false)
       //  response  = listUser("")
 
