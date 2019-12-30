@@ -96,6 +96,8 @@ func main() {
 		v1.POST("/order/last", userController.FindOrder)
 		v1.POST("/order/isSpecialBonus", userController.FindBonus)
 		v1.POST("/order/setSpecialBonus", userController.SetBonus)
+		v1.POST("/product/list", userController.ListProducts)
+		v1.POST("/product/update", userController.UpdateProduct)
 	}
 
 	router.NoRoute(func(c *gin.Context) {

@@ -74,8 +74,7 @@ func (m *UserModel) GetByName(
 		email string) (user User, err error) {
 	collection := dbConnect.Use("wpc", "users")
 	err = collection.Find(
-		bson.M{"firstname":firstname,"lastname":lastname,
-			"company":company,"email":email}).One(&user)
+		bson.M{"email":email}).One(&user)
 	return user, err
 }
 

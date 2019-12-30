@@ -20,8 +20,8 @@ type OrderItem struct {
 }
 
 type DateItem struct {
-	ID           	bson.ObjectId  `json:"id" bson:"_id,omitempty"`
-	Date          string         			`json:"date" bson:"date"`
+	ID           	bson.ObjectId     `json:"id" bson:"_id,omitempty"`
+	Date          string         		`json:"date" bson:"date"`
 	Count         int  							`json:"count" bson:"count"`
 }
 
@@ -48,6 +48,18 @@ type Order struct {
 	Time               int64          `json:"time" bson:"time"`
 	UserInfo           OrderUser			`json:"orderUser" bson:"orderUser"`
 	List          		 []OrderItem 	  `json:"orderList" bson:"orderList"`
+}
+
+type Product struct {
+	ID           	bson.ObjectId     `bson:"_id,omitempty"`
+	ProductId     string         		`json:"productId" bson:"productId"`
+	Name          string         		`json:"name" bson:"name"`
+	Available     bool							`json:"count" bson:"count"`
+}
+type ProductOut struct {
+	ProductId     string         		`json:"productId" bson:"productId"`
+	Name          string         		`json:"name" bson:"name"`
+	Available     bool							`json:"available" bson:"available"`
 }
 
 type OrderModel struct{}
@@ -134,4 +146,24 @@ func (m *OrderModel) SetBonus(data forms.FindLastOrderCommand) (err error ){
 	cid := bson.NewObjectId()
 	err = collection.Insert(bson.M{"_id":cid,"date": date ,"userId":data.UserId})
 	return err
+}
+
+
+func (m *OrderModel) UpdateProductAvailable( f forms.UpdateProductCommand ) (err error) {
+	collection := dbConnect.Use("wpc", "products")
+	var product Product
+	err = collection.Find(bson.M{"productId":f.ProductId}).One(&product)
+	if err != nil{
+		return err
+	}
+	data := bson.M{"$set": bson.M{"available": f.Available }}
+	err = collection.UpdateId(product.ID, data)
+	return err
+}
+
+func (m *OrderModel) ListProducts( ) (list []ProductOut,err error) {
+	collection := dbConnect.Use("wpc", "products")
+	var query = bson.M{}
+	err = collection.Find(query).All(&list)
+	return list, err
 }

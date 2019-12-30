@@ -10,7 +10,7 @@
  * @apiName PostUser
  * @apiGroup User
  *
- * @apiDescription 建立新用戶, company+firstname+lastname+email是唯一
+ * @apiDescription 建立新用戶, email是唯一
  *
  * @apiParam {String}   firstname    用戶名(必填)
  * @apiParam {String}   lastname     用戶姓(必填)
@@ -279,7 +279,7 @@ function updateUserCheck() { return; }
     * @apiSuccess     {Object}  order                    點餐資訊
     * @apiSuccess     {String}  orderNumber              點餐代碼, 四碼(例如0001)，每天(或超過9999)重置
     * @apiSuccess     {Number}  time                     點餐時間(UNIX TIME)
-    * @apiSuccess     {String}  order.orderList           點餐資訊
+    * @apiSuccess     {Object[]}  order.orderList           點餐資訊
     * @apiSuccess     {String}  order.orderList.name      餐點名稱
     * @apiSuccess     {Number}  order.orderList.amount    餐點數量
     * @apiSuccess     {String}  order.orderList.ice       餐點冰度
@@ -349,3 +349,32 @@ function updateUserCheck() { return; }
          * @apiSuccess     {String}  message  錯誤訊息
          */
          function setSpecialBonus() { return; }
+
+         /**
+          * @api {post} /api/prouct/list 1.列出產品
+          * @apiVersion 0.0.1
+          * @apiName listProducts
+          * @apiGroup Product
+          * @apiDescription 列出所有飲料產品
+          *
+          * @apiSuccess {Number} code   0:SUCCESS(成功)
+          * @apiSuccess {Object[]} products  回傳產品資訊陣列
+          * @apiSuccess {String} products.productId  產品代碼
+          * @apiSuccess {String} products.name  產品名稱
+          * @apiSuccess {Boolean} products.available  產品是否可銷售
+          */
+          function listProducts() { return; }
+
+
+          /**
+           * @api {post} /api/prouct/update 2.更新產品銷售狀態
+           * @apiVersion 0.0.1
+           * @apiName  updateProduct
+           * @apiGroup Product
+           * @apiDescription 根據productId,更新產品銷售狀態
+           * @apiParam {String}  productId  產品代碼
+           * @apiParam {Boolean} available  產品是否可銷售
+           * @apiSuccess {Number} code   0:SUCCESS(成功)  5:OPERATION_FAIL(更新失敗)
+
+           */
+           function updateProduct() { return; }

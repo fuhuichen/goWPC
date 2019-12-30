@@ -23,3 +23,8 @@ type ListOrderCommand struct {
 type FindLastOrderCommand struct {
 	UserId      string  `json:"userId"  bson:"userId" binding:"required"`
 }
+
+type UpdateProductCommand struct {
+	ProductId      string  `json:"productId"  bson:"productId" binding:"required"`
+	Available      *bool   `json:"available" validate:"exists"`
+}

@@ -163,6 +163,19 @@ func setBonus(id string ) (response string){
         return callAPI(url,jsonStr);
 }
 
+func listProducts() (response string){
+        s := fmt.Sprintf("{}")
+        var jsonStr = []byte(s);
+        url := "http://127.0.0.1:9741/api/product/list"
+        return callAPI(url,jsonStr);
+}
+
+func updateProduct(productId string, available bool) (response string){
+        s := fmt.Sprintf("{\"productId\":\"%s\",\"available\":%t}",productId, available)
+        var jsonStr = []byte(s);
+        url := "http://127.0.0.1:9741/api/product/update"
+        return callAPI(url,jsonStr);
+}
 
 
 
@@ -347,4 +360,6 @@ func main() {
     body, _ := ioutil.ReadAll(resp.Body)
     fmt.Println("response Body:", string(body))
     */
+    listProducts()
+    updateProduct("1",false)
 }

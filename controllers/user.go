@@ -361,3 +361,34 @@ func (user *UserController) SetBonus(c *gin.Context) {
 		c.JSON(200, gin.H{"code":0, "message": "SUCCESS"})
 	}
 }
+
+
+func (user *UserController) ListProducts(c *gin.Context) {
+
+	list, err := orderModel.ListProducts()
+	if err != nil || list == nil{
+		var orderList = make([]models.ProductOut, 0)
+		c.JSON(200, gin.H{"code":0, "message": "SUCCESS", "products": orderList})
+		c.Abort()
+	} else {
+		c.JSON(200, gin.H{"code":0, "message": "SUCCESS", "products": list})
+	}
+}
+
+
+func (user *UserController) UpdateProduct(c *gin.Context) {
+	//fmt.Println("List Orders")
+	var data forms.UpdateProductCommand
+	if c.BindJSON(&data) != nil {
+		c.JSON(200, gin.H{"code":1, "message": "INVALID_PARAMETERS"})
+		c.Abort()
+		return
+	}
+	err := orderModel.UpdateProductAvailable(data)
+	if err != nil  {
+		c.JSON(200, gin.H{"code":5, "message": "OPERATION_FAIL"})
+		c.Abort()
+	} else {
+		c.JSON(200, gin.H{"code":0, "message": "SUCCESS"})
+	}
+}

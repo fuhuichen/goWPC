@@ -218,7 +218,7 @@ define({ "api": [
           },
           {
             "group": "Success 200",
-            "type": "String",
+            "type": "Object[]",
             "optional": false,
             "field": "order.orderList",
             "description": "<p>點餐資訊</p>"
@@ -465,6 +465,102 @@ define({ "api": [
     },
     "filename": "src/example.js",
     "groupTitle": "Order"
+  },
+  {
+    "type": "post",
+    "url": "/api/prouct/list",
+    "title": "1.列出產品",
+    "version": "0.0.1",
+    "name": "listProducts",
+    "group": "Product",
+    "description": "<p>列出所有飲料產品</p>",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>0:SUCCESS(成功)</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "products",
+            "description": "<p>回傳產品資訊陣列</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "products.productId",
+            "description": "<p>產品代碼</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "products.name",
+            "description": "<p>產品名稱</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Boolean",
+            "optional": false,
+            "field": "products.available",
+            "description": "<p>產品是否可銷售</p>"
+          }
+        ]
+      }
+    },
+    "filename": "src/example.js",
+    "groupTitle": "Product"
+  },
+  {
+    "type": "post",
+    "url": "/api/prouct/update",
+    "title": "2.更新產品銷售狀態",
+    "version": "0.0.1",
+    "name": "updateProduct",
+    "group": "Product",
+    "description": "<p>根據productId,更新產品銷售狀態</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "productId",
+            "description": "<p>產品代碼</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Boolean",
+            "optional": false,
+            "field": "available",
+            "description": "<p>產品是否可銷售</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>0:SUCCESS(成功)  5:OPERATION_FAIL(更新失敗)</p>"
+          }
+        ]
+      }
+    },
+    "filename": "src/example.js",
+    "groupTitle": "Product"
   },
   {
     "type": "post",
@@ -724,7 +820,7 @@ define({ "api": [
     "version": "0.0.1",
     "name": "PostUser",
     "group": "User",
-    "description": "<p>建立新用戶, company+firstname+lastname+email是唯一</p>",
+    "description": "<p>建立新用戶, email是唯一</p>",
     "parameter": {
       "fields": {
         "Parameter": [
