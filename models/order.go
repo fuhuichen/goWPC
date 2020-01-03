@@ -120,7 +120,7 @@ func (m *OrderModel) List(time int64 ) (list []Order, err error) {
 func (m *OrderModel) Find(data forms.FindLastOrderCommand) (order []Order,  err error ){
 	collection := dbConnectOrder.Use("wpc", "Orders")
 	var query = bson.M{"userId":data.UserId}
-	err = collection.Find(query).Sort("[{\"time\":-1}]").Limit(1).All(&order)
+	err = collection.Find(query).Sort("-time").Limit(1).All(&order)
 	return order,err
 }
 
