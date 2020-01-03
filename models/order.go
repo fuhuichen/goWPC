@@ -43,7 +43,7 @@ type OrderUser struct {
 }
 
 type Order struct {
-	OrderNumber        int64         	`json:"orderNumber" bson:"orderNumber"`
+	OrderNumber        string         	`json:"orderNumber" bson:"orderNumber"`
 	UserId    	       string         `json:"userId" bson:"userId"`
 	Time               int64          `json:"time" bson:"time"`
 	UserInfo           OrderUser			`json:"orderUser" bson:"orderUser"`
