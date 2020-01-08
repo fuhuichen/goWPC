@@ -59,7 +59,11 @@ func createUser(firstname string, lastname string, country string, company strin
 func updateImage(id string, file string) (response string){
   fmt.Println("Updagte image ID Response:>", id )
   fmt.Println("FileName Response:>", file )
-  f, _ := os.Open(file)
+  f, err := os.Open(file)
+  if err != nil {
+        fmt.Println("Could not open file")
+        return ""
+  }
   reader := bufio.NewReader(f)
   content, _ := ioutil.ReadAll(reader)
   encoded := base64.StdEncoding.EncodeToString(content)
