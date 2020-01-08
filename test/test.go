@@ -1,7 +1,7 @@
 package main
 
 import (
-  //"encoding/json"
+  "encoding/json"
   "fmt"
 	"net/http"
   "bytes"
@@ -67,7 +67,7 @@ func deleteUser(id string ) (response string){
         s := fmt.Sprintf("{\"id\":\"%s\"}",id)
       //    fmt.Println("Create Response:>",s )
         var jsonStr = []byte(s);
-        url := "http://172.22.20.97/api/user/delete"
+        url := "http://127.0.0.1:9741/api/user/delete"
         return callAPI(url,jsonStr);
 }
 
@@ -75,7 +75,7 @@ func findUser(id string ) (response string){
         s := fmt.Sprintf("{\"id\":\"%s\"}",id)
       //    fmt.Println("Create Response:>",s )
         var jsonStr = []byte(s);
-        url := "http://172.22.20.97/api/user/info"
+        url := "http://127.0.0.1:9741/api/user/info"
         return callAPI(url,jsonStr);
 }
 
@@ -83,7 +83,7 @@ func findUserFace(id string ) (response string){
         s := fmt.Sprintf("{\"id\":\"%s\"}",id)
       //    fmt.Println("Create Response:>",s )
         var jsonStr = []byte(s);
-        url := "http://172.22.20.97/api/user/face"
+        url := "http://127.0.0.1:9741/api/user/face"
         return callAPI(url,jsonStr);
 }
 
@@ -91,7 +91,7 @@ func updateUser(id string, email string ,title string,registered bool,counterReg
         s := fmt.Sprintf("{\"id\":\"%s\",\"email\":\"%s\",\"title\":\"%s\",\"registered\":%t,\"counterRegistered\":%t}",id,email,title, registered,counterRegistered)
       //    fmt.Println("Create Response:>",s )
         var jsonStr = []byte(s);
-        url := "http://172.22.20.97/api/user/update"
+        url := "http://127.0.0.1:9741/api/user/update"
         return callAPI(url,jsonStr);
 }
 
@@ -99,7 +99,7 @@ func updateBoothCheck(id string ,boothName string, checked bool) (response strin
         s := fmt.Sprintf("{\"id\":\"%s\",\"boothName\":\"%s\",\"checked\":%t}",id,boothName,checked)
         fmt.Println("Create Response:>",s )
         var jsonStr = []byte(s);
-        url := "http://172.22.20.97/api/user/updateCheck"
+        url := "http://127.0.0.1:9741/api/user/updateCheck"
         return callAPI(url,jsonStr);
 }
 
@@ -109,7 +109,7 @@ func createUser(firstname string, lastname string, company string, title string,
                   firstname,lastname,company,title, email,mobile,extend1,extend2)
           fmt.Println("Create Response:>",s )
         var jsonStr = []byte(s);
-        url := "http://172.22.20.97/api/user/create"
+        url := "http://127.0.0.1:9741/api/user/create"
         return callAPI(url,jsonStr);
 }
 
@@ -117,7 +117,7 @@ func listUser(keyword string ) (response string){
         s := fmt.Sprintf("{\"keyword\":\"%s\"}",keyword)
           fmt.Println("Create Response:>",s )
         var jsonStr = []byte(s);
-        url := "http://172.22.20.97/api/user/list"
+        url := "http://127.0.0.1:9741/api/user/list"
         return callAPI(url,jsonStr);
 }
 /*
@@ -132,48 +132,48 @@ func createOrder(id string ) (response string){
         s := fmt.Sprintf("{\"userId\":\"%s\",\"orderList\":[{\"name\":\"珍珠奶茶\",\"amount\":1,\"ice\":\"少冰\",\"sugar\":\"半糖\",\"size\":\"Large\",\"padding\":\"珍珠\"}]}",id)
         fmt.Println("Create Response:>",s )
         var jsonStr = []byte(s);
-        url := "http://172.22.20.97/api/order/create"
+        url := "http://127.0.0.1:9741/api/order/create"
         return callAPI(url,jsonStr);
 }
 
 func  listOrder(time int64 ) (response string){
         s := fmt.Sprintf("{\"time\":%d}",time)
         var jsonStr = []byte(s);
-        url := "http://172.22.20.97/api/order/list"
+        url := "http://127.0.0.1:9741/api/order/list"
         return callAPI(url,jsonStr);
 }
 
 func lastOrder(id string ) (response string){
         s := fmt.Sprintf("{\"userId\":\"%s\"}",id)
         var jsonStr = []byte(s);
-        url := "http://172.22.20.97/api/order/last"
+        url := "http://127.0.0.1:9741/api/order/last"
         return callAPI(url,jsonStr);
 }
 
 func isBonus(id string ) (response string){
         s := fmt.Sprintf("{\"userId\":\"%s\"}",id)
         var jsonStr = []byte(s);
-        url := "http://172.22.20.97/api/order/isSpecialBonus"
+        url := "http://127.0.0.1:9741/api/order/isSpecialBonus"
         return callAPI(url,jsonStr);
 }
 func setBonus(id string ) (response string){
         s := fmt.Sprintf("{\"userId\":\"%s\"}",id)
         var jsonStr = []byte(s);
-        url := "http://172.22.20.97/api/order/setSpecialBonus"
+        url := "http://127.0.0.1:9741/api/order/setSpecialBonus"
         return callAPI(url,jsonStr);
 }
 
 func listProducts() (response string){
         s := fmt.Sprintf("{}")
         var jsonStr = []byte(s);
-        url := "http://172.22.20.97/api/product/list"
+        url := "http://127.0.0.1:9741/api/product/list"
         return callAPI(url,jsonStr);
 }
 
 func updateProduct(productId string, available bool) (response string){
         s := fmt.Sprintf("{\"productId\":\"%s\",\"available\":%t}",productId, available)
         var jsonStr = []byte(s);
-        url := "http://172.22.20.97/api/product/update"
+        url := "http://127.0.0.1:9741/api/product/update"
         return callAPI(url,jsonStr);
 }
 
@@ -229,7 +229,7 @@ func updateImage(id string, file string) (response string){
   s := fmt.Sprintf("{\"id\":\"%s\",\"image\":\"%s\"}",id,encoded)
   //fmt.Println("Create Response:>",s )
   var jsonStr = []byte(s);
-  url := "http://172.22.20.97/api/user/updateImage"
+  url := "http://127.0.0.1:9741/api/user/updateImage"
   return callAPI(url,jsonStr);
 }
 
@@ -242,7 +242,7 @@ func verifyImage( threshold float64, max int, file string) (response string){
   s := fmt.Sprintf("{\"threshold\":%f, \"max\":%d, \"image\":\"%s\"}",threshold,max,encoded)
 //  fmt.Println("Create Response:>",s )
   var jsonStr = []byte(s);
-  url := "http://172.22.20.97/api/fr/verification"
+  url := "http://127.0.0.1:9741/api/fr/verification"
   return callAPI(url,jsonStr);
 }
 func main() {
@@ -253,15 +253,15 @@ func main() {
   //fmt.Printf("Umpage Image User Code : %d Message: %s", updateImageRes.Code, updateImageRes.Message)
   //createOrder("5e02c2fc9eff623e2c9f85c1")
   //listOrder(1)
-  lastOrder("5e0073f41cce9e1ba0b401e1")
+  //lastOrder("5e0073f41cce9e1ba0b401e1")
   //setBonus("5e02c2fc9eff623e2c9f85c1")
   //isBonus("5e02c2fc9eff623e2c9f85c1")
-//  response  = listUser("")
-//  var listUserRes ListUserResponse
-  //json.Unmarshal([]byte(response), &listUserRes)
-//  for _, s := range listUserRes.UserList {
-  //  deleteUser(s.ID)
-  //}
+  var response  = listUser("")
+  var listUserRes ListUserResponse
+  json.Unmarshal([]byte(response), &listUserRes)
+  for _, s := range listUserRes.UserList {
+    deleteUser(s.ID)
+  }
     //updateBoothCheck("5ddc97509eff62678c6c0cf1" ,"BoothA", true)
     //updateBoothCheck("5ddc97509eff62678c6c0cf1" ,"BoothB", true)
     //updateBoothCheck("5ddc97509eff62678c6c0cf1" ,"BoothC", true)
@@ -340,7 +340,7 @@ func main() {
 
     //updateImage("123","./photo1.jpg" )
     /*.code
-    url := "http://172.22.20.97/api/user/create"
+    url := "http://127.0.0.1:9741/api/user/create"
     fmt.Println("URL:>", url)
 
     var jsonStr = []byte(`{"firstname":"A","lastname":"B","company":"Advantch"}`)

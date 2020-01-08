@@ -26,6 +26,7 @@ type User struct {
 	Mobile       string         `json:"mobile" bson:"mobile"`
 	Extend1      string 			  `json:"extend1" bson:"extend1"`
 	Extend2      string 				`json:"extend2" bson:"extend2"`
+	Country      string 				`json:"country" bson:"country"`
 	Registered         bool         `json:"registered" bson:"registered"`
 	CounterRegistered  bool          `json:"counterRegistered" bson:"counterRegistered"`
 	RegisterTime       int64        `json:"registerTime" bson:"registerTime"`
@@ -47,7 +48,7 @@ func (m *UserModel) Create(data forms.CreateUserCommand) (id bson.ObjectId, err 
 	id = bson.NewObjectId()
 	err = collection.Insert(bson.M{"_id":id,"firstname": data.FirstName,"lastname": data.LastName,
 					"title":data.Title,"email": data.Email,"company":data.Company,"mobile":data.Mobile,
-					"extend1":data.Extend1,"extend2":data.Extend2})
+					"extend1":data.Extend1,"extend2":data.Extend2,"country":data.Country})
   fmt.Println("Create Response:>",err)
 	return id,err
 }
@@ -74,7 +75,8 @@ func (m *UserModel) GetByName(
 		email string) (user User, err error) {
 	collection := dbConnect.Use("wpc", "users")
 	err = collection.Find(
-		bson.M{"email":email}).One(&user)
+		bson.M{"email":email,"lastname":lastname,
+			"firstname":firstname,"company":company}).One(&user)
 	return user, err
 }
 

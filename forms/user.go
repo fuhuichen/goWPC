@@ -9,6 +9,7 @@ type CreateUserCommand struct {
 	Title       string  `json:"title"`
 	Extend1     string  `json:"extend1"`
 	Extend2     string  `json:"extend2"`
+	Country     string  `json:"country"`
 }
 
 type ListUserCommand struct {

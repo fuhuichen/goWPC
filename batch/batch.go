@@ -11,6 +11,7 @@ import (
     "io/ioutil"
     "bufio"
     "encoding/base64"
+    "log"
 )
 
 type GeneralResponse struct {
@@ -51,7 +52,7 @@ func createUser(firstname string, lastname string, company string, title string,
                   firstname,lastname,company,title, email,mobile,extend1,extend2)
           fmt.Println("Create Response:>",s )
         var jsonStr = []byte(s);
-        url := "http://172.22.20.97:80/api/user/create"
+        url := "http://127.0.0.1:9741/api/user/create"
         return callAPI(url,jsonStr);
 }
 
@@ -66,7 +67,7 @@ func updateImage(id string, file string) (response string){
   s := fmt.Sprintf("{\"id\":\"%s\",\"image\":\"%s\"}",id,encoded)
   //fmt.Println("Create Response:>",s )
   var jsonStr = []byte(s);
-  url := "http://172.22.20.97:80/api/user/updateImage"
+  url := "http://127.0.0.1:9741/api/user/updateImage"
   return callAPI(url,jsonStr);
 }
 
@@ -76,6 +77,16 @@ func ReadCsvFile(filePath string)  {
 
     // Create a new reader.
     r := csv.NewReader(f)
+    csvfile, err := os.Create("output.csv")
+
+	  if err != nil {
+		    log.Fatalf("failed creating file: %s", err)
+	  }
+	  csvwriter := csv.NewWriter(csvfile)
+
+  //	for _, row := range rows {
+	//	_ = csvwriter.Write(row)
+	//}
     for {
         record, err := r.Read()
         // Stop at EOF.
@@ -89,9 +100,10 @@ func ReadCsvFile(filePath string)  {
         // Display record.
         // ... Display record length.
         // ... Display all individual elements of the slice.
-        //fmt.Println(record)
+        fmt.Println(record)
+
         //fmt.Println(len(record))
-        if len(record)>5 && record[1]!="First Name" {
+        if len(record)>15 && record[1]!="First Name" {
           var response  = createUser(record[1], record[2],record[3],record[4],record[0],"","","" );
           var createRes CreateUserResponse
           json.Unmarshal([]byte(response), &createRes)
@@ -104,10 +116,21 @@ func ReadCsvFile(filePath string)  {
           }
 
         }
+        if record[1]!="First Name" {
+          newRow := append(record,"XXXXXXXX")
+          _ = csvwriter.Write(newRow)
+        }else{
+          newRow := append(record,"QRCode")
+          _ = csvwriter.Write(newRow)
+        }
+
+
       //for value := range record {
       //      fmt.Printf("  %v\n", record[value])
       //  }
     }
+    csvwriter.Flush()
+    csvfile.Close()
 }
 
 
