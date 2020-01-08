@@ -46,10 +46,10 @@ func callAPI(url string,jsonStr []byte)(response string){
   return response;
 }
 
-func createUser(firstname string, lastname string, company string, title string,
+func createUser(firstname string, lastname string, country string, company string, title string,
         email string ,mobile string ,extend1 string,extend2 string ) (response string){
-        s := fmt.Sprintf("{\"firstname\":\"%s\",\"lastname\":\"%s\",\"company\":\"%s\",\"title\":\"%s\",\"email\":\"%s\",\"mobile\":\"%s\", \"extend1\":\"%s\",\"extend2\":\"%s\"}",
-                  firstname,lastname,company,title, email,mobile,extend1,extend2)
+        s := fmt.Sprintf("{\"firstname\":\"%s\",\"lastname\":\"%s\",\"company\":\"%s\",\"title\":\"%s\",\"email\":\"%s\",\"mobile\":\"%s\", \"extend1\":\"%s\",\"extend2\":\"%s\",\"country\":\"%s\"}",
+                  firstname,lastname,company,title, email,mobile,extend1,extend2,country)
           fmt.Println("Create Response:>",s )
         var jsonStr = []byte(s);
         url := "http://127.0.0.1:9741/api/user/create"
@@ -104,10 +104,12 @@ func ReadCsvFile(filePath string)  {
 
         //fmt.Println(len(record))
         if len(record)>15 && record[1]!="First Name" {
-          var response  = createUser(record[1], record[2],record[3],record[4],record[0],"","","" );
+          var response  = createUser(record[1], record[2],record[4],record[5],record[3],record[0],"","","" );
           var createRes CreateUserResponse
           json.Unmarshal([]byte(response), &createRes)
           fmt.Printf("Create User Code : %d ID: %s", createRes.Code, createRes.ID)
+          newRow := append(record,createRes.ID)
+           _ = csvwriter.Write(newRow)
           if record[5]!= ""  {
             response  = updateImage(createRes.ID,"./data/ProfilePicture_" +  record[5] + ".jpg")
             var updateImageRes GeneralResponse
@@ -115,14 +117,16 @@ func ReadCsvFile(filePath string)  {
             fmt.Printf("Umpage Image User Code : %d Message: %s", updateImageRes.Code, updateImageRes.Message)
           }
 
-        }
-        if record[1]!="First Name" {
-          newRow := append(record,"XXXXXXXX")
-          _ = csvwriter.Write(newRow)
         }else{
           newRow := append(record,"QRCode")
           _ = csvwriter.Write(newRow)
         }
+
+
+      //  if record[1]!="First Name" {
+      //    newRow := append(record,"XXXXXXXX")
+      //    _ = csvwriter.Write(newRow)
+      //  }
 
 
       //for value := range record {
