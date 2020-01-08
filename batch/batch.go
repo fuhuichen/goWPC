@@ -107,7 +107,7 @@ func ReadCsvFile(filePath string)  {
         fmt.Println(record)
 
         //fmt.Println(len(record))
-        if len(record)>15 && record[1]!="First Name" {
+        if len(record)>6 && record[1]!="First Name" {
           var response  = createUser(record[1], record[2],record[4],record[5],record[3],record[0],"","","" );
           var createRes CreateUserResponse
           json.Unmarshal([]byte(response), &createRes)
