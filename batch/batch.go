@@ -110,8 +110,9 @@ func ReadCsvFile(filePath string)  {
           fmt.Printf("Create User Code : %d ID: %s", createRes.Code, createRes.ID)
           newRow := append(record,createRes.ID)
            _ = csvwriter.Write(newRow)
-          if record[5]!= ""  {
-            response  = updateImage(createRes.ID,"./data/ProfilePicture_" +  record[5] + ".jpg")
+          if record[6]!= ""  {
+            response  = updateImage(createRes.ID,"./data/ProfilePicture_" +  record[6] + ".png")
+            response  = updateImage(createRes.ID,"./data/ProfilePicture_" +  record[6] + ".jpg")
             var updateImageRes GeneralResponse
             json.Unmarshal([]byte(response), &updateImageRes)
             fmt.Printf("Umpage Image User Code : %d Message: %s", updateImageRes.Code, updateImageRes.Message)
