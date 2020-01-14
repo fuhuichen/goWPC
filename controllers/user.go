@@ -231,6 +231,9 @@ func (user *UserController) VerifyImage(c *gin.Context) {
 					}
 			default:
 			}
+			if  personID != "" {
+				break
+			}
 		  //msg := <- user.Messages
 	    time.Sleep(time.Duration(200)*time.Millisecond)
 		//	fmt.Println("Test faceid =", msg)
