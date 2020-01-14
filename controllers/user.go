@@ -221,7 +221,7 @@ func (user *UserController) VerifyImage(c *gin.Context) {
 	}
 	personID := ""
 	fmt.Println("Wait for face face" +frsVerifyFaceID )
-	for i := 1; i < 20; i++ {
+	for i := 1; i < 35; i++ {
 		select {
     	case msg := <-user.Messages:
 					fmt.Println("received face", msg)
