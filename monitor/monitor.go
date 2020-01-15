@@ -388,7 +388,7 @@ func main() {
 
       if updateImageRes.Code!=0 || len(updateImageRes.UserList) !=1 {
           fmt.Printf("Server Error",)
-        //  restart()
+          restart()
       }
 
     }
