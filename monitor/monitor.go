@@ -379,7 +379,7 @@ func main() {
     fmt.Printf("Umpage Image User Code : %d Message: %s", updateImageRes.Code, updateImageRes.Message)
     var a  = 10
     for a!= 0 {
-      response = verifyImage(0.9,1,"./photo2.jpg")
+      response = verifyImage(0.8,1,"./photo2.jpg")
       var updateImageRes ListUserResponse
       json.Unmarshal([]byte(response), &updateImageRes)
       fmt.Printf("Verify Image User Code : %d Len: %d", updateImageRes.Code, len(updateImageRes.UserList))
@@ -388,7 +388,7 @@ func main() {
 
       if updateImageRes.Code!=0 || len(updateImageRes.UserList) !=1 {
           fmt.Printf("Server Error",)
-          restart()
+        //  restart()
       }
 
     }
