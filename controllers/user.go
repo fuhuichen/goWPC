@@ -7,14 +7,102 @@ import (
 	"goWPC/frs"
 	"github.com/gin-gonic/gin"
 	"time"
+	"log"
+	"github.com/sacOO7/gowebsocket"
+	"encoding/json"
 )
 
 var userModel = new(models.UserModel)
 var orderModel = new(models.OrderModel)
 
+
+func initWS(socket gowebsocket.Socket,messages chan frs.FRSWSResponse){
+//	interrupt := make(chan os.Signal, 1)
+//	signal.Notify(interrupt, os.Interrupt)
+
+
+
+	socket.OnConnectError = func(err error, socket gowebsocket.Socket) {
+		log.Fatal("Received connect error - ", err)
+	}
+
+	socket.OnConnected = func(socket gowebsocket.Socket) {
+		log.Println("Connected to server");
+	}
+
+	socket.OnTextMessage = func(message string, socket gowebsocket.Socket) {
+
+		var wsResponse frs.FRSWSResponse
+		json.Unmarshal([]byte(string(message)), &wsResponse)
+		log.Println("Received message - "+wsResponse.VerifyFaceID + " " + wsResponse.PersonID )
+		messages<-wsResponse
+	}
+
+	socket.OnPingReceived = func(data string, socket gowebsocket.Socket) {
+		log.Println("Received ping - " + data)
+	}
+
+    socket.OnPongReceived = func(data string, socket gowebsocket.Socket) {
+		log.Println("Received pong - " + data)
+	}
+
+	socket.OnDisconnected = func(err error, socket gowebsocket.Socket) {
+		log.Println("Disconnected from server r\n")
+		socket.Connect();
+		return
+	}
+
+	socket.Connect()
+
+  //socket.SendText("Thoughtworks guys are awesome !!!!")
+  /*
+	for {
+		select {
+		case <-interrupt:
+			log.Println("interrupt")
+			socket.Close()
+			return
+		}
+	}
+	*/
+		log.Println("\nExit ws routine \n")
+}
+
 type UserController struct{
 	SessionID string
 	Messages chan frs.FRSWSResponse
+	Socket gowebsocket.Socket
+}
+
+func (user *UserController) Init() {
+	socket := gowebsocket.New("ws://172.22.20.175:80/fcsrecognizedresult")
+	messages := make(chan frs.FRSWSResponse,10)
+	go initWS(socket,messages)
+	var frsClient = new(frs.FrsClient)
+	frsClient.IP ="172.22.20.175:80";
+	var sessionID = frsClient.FrsLogin("goapi2","1qaz@WSX")
+	fmt.Printf("FRS Login session ID= : %s\n", sessionID)
+	user.SessionID =sessionID
+	user.Messages =messages
+	user.Socket = socket
+}
+
+func (user *UserController) Restart(c *gin.Context) {
+	fmt.Printf("Restart Websocket \n")
+
+	socket := gowebsocket.New("ws://172.22.20.175:80/fcsrecognizedresult")
+	messages := make(chan frs.FRSWSResponse,10)
+	go initWS(socket,messages)
+	var frsClient = new(frs.FrsClient)
+	frsClient.IP ="172.22.20.175:80";
+	var sessionID = frsClient.FrsLogin("goapi2","1qaz@WSX")
+	fmt.Printf("FRS Login session ID= : %s\n", sessionID)
+	user.SessionID =sessionID
+	user.Messages =messages
+	user.Socket = socket
+	c.JSON(200, gin.H{"code":1, "message": "INVALID_PARAMETERS"})
+	c.Abort()
+	return
 }
 
 func (user *UserController) Create(c *gin.Context) {
