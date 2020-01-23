@@ -36,7 +36,21 @@ type CreateUserResponse struct {
 }
 
 type User struct {
-	ID      string `json:"id"`
+  ID           string  `json:"id" bson:"id"`
+  FirstName    string         `json:"firstname" bson:"firstname"`
+  LastName     string         `json:"lastname" bson:"lastname"`
+  Email        string         `json:"email"  bson:"email"`
+  Company      string         `json:"company" bson:"company"`
+  Title        string     	  `json:"title" bson:"title"`
+  Mobile       string         `json:"mobile" bson:"mobile"`
+  Extend1      string 			  `json:"extend1" bson:"extend1"`
+  Extend2      string 				`json:"extend2" bson:"extend2"`
+  Country      string 				`json:"country" bson:"country"`
+  Registered         bool         `json:"registered" bson:"registered"`
+  CounterRegistered  bool          `json:"counterRegistered" bson:"counterRegistered"`
+  RegisterTime       int64        `json:"registerTime" bson:"registerTime"`
+  FaceRegistered     bool          `json:"faceRegistered" bson:"face_registerd"`
+  PersonID           string         `json:"personid" bson:"personid"`
 }
 type ListUserResponse struct {
 	Code     int `json:"code"`
@@ -260,8 +274,9 @@ func main() {
   var listUserRes ListUserResponse
   json.Unmarshal([]byte(response), &listUserRes)
   for _, s := range listUserRes.UserList {
-    deleteUser(s.ID)
-  }
+  //  deleteUser(s.ID)
+  fmt.Println(s)
+ }
     //updateBoothCheck("5ddc97509eff62678c6c0cf1" ,"BoothA", true)
     //updateBoothCheck("5ddc97509eff62678c6c0cf1" ,"BoothB", true)
     //updateBoothCheck("5ddc97509eff62678c6c0cf1" ,"BoothC", true)
