@@ -17,15 +17,14 @@ var listen = true
 
 
 func main() {
-
 	router := gin.Default()
 	router.Use(cors.Default())
 	/*
-  socket = gowebsocket.New("ws://172.22.20.175:80/fcsrecognizedresult")
+  socket = gowebsocket.New("ws://172.22.27.167:80/fcsrecognizedresult")
 	messages := make(chan frs.FRSWSResponse,10)
 	go initWS(socket,messages)
 	var frsClient = new(frs.FrsClient)
-	frsClient.IP ="172.22.20.175:80";
+	frsClient.IP ="172.22.27.167:80";
 	var sessionID = frsClient.FrsLogin("goapi2","1qaz@WSX")
 	fmt.Printf("FRS Login session ID= : %s\n", sessionID)
 	*/

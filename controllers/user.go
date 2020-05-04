@@ -75,11 +75,11 @@ type UserController struct{
 }
 
 func (user *UserController) Init() {
-	socket := gowebsocket.New("ws://172.22.20.175:80/fcsrecognizedresult")
+	socket := gowebsocket.New("ws://172.22.27.167:80/fcsrecognizedresult")
 	messages := make(chan frs.FRSWSResponse,10)
 	go initWS(socket,messages)
 	var frsClient = new(frs.FrsClient)
-	frsClient.IP ="172.22.20.175:80";
+	frsClient.IP ="172.22.27.167:80";
 	var sessionID = frsClient.FrsLogin("goapi2","1qaz@WSX")
 	fmt.Printf("FRS Login session ID= : %s\n", sessionID)
 	user.SessionID =sessionID
@@ -90,11 +90,11 @@ func (user *UserController) Init() {
 func (user *UserController) Restart(c *gin.Context) {
 	fmt.Printf("Restart Websocket \n")
 
-	socket := gowebsocket.New("ws://172.22.20.175:80/fcsrecognizedresult")
+	socket := gowebsocket.New("ws://172.22.27.167:80/fcsrecognizedresult")
 	messages := make(chan frs.FRSWSResponse,10)
 	go initWS(socket,messages)
 	var frsClient = new(frs.FrsClient)
-	frsClient.IP ="172.22.20.175:80";
+	frsClient.IP ="172.22.27.167:80";
 	var sessionID = frsClient.FrsLogin("goapi2","1qaz@WSX")
 	fmt.Printf("FRS Login session ID= : %s\n", sessionID)
 	user.SessionID =sessionID
@@ -213,7 +213,7 @@ func (user *UserController) Delete(c *gin.Context) {
 			return
 	}
 	var frsClient = new(frs.FrsClient)
-	frsClient.IP ="172.22.20.175:80";
+	frsClient.IP ="172.22.27.167:80";
 	if profile.PersonID != "" {
 		fmt.Println("Delete OldPerson-:>",errg)
 		frsClient.FrsDeleteUser(user.SessionID, profile.PersonID)
@@ -243,7 +243,7 @@ func (user *UserController) UpdateImage(c *gin.Context) {
 			return
 	}
 	var frsClient = new(frs.FrsClient)
-	frsClient.IP ="172.22.20.175:80";
+	frsClient.IP ="172.22.27.167:80";
 	if profile.PersonID != "" {
 		fmt.Println("Delete OldPerson-:>",profile.PersonID)
 		frsClient.FrsDeleteUser(user.SessionID, profile.PersonID)
@@ -299,7 +299,7 @@ func (user *UserController) VerifyImage(c *gin.Context) {
 	}
 	var userList = make([]models.User, 0)
 	var frsClient = new(frs.FrsClient)
-	frsClient.IP ="172.22.20.175:80";
+	frsClient.IP ="172.22.27.167:80";
 	var frsVerifyFaceID = frsClient.FrsVerify(user.SessionID, data.Image,data.Threshold)
 	fmt.Println("get face id=", frsVerifyFaceID)
 	if  frsVerifyFaceID == "" {

@@ -194,7 +194,7 @@ func frsLogin(username string,password string) (response string){
         s := fmt.Sprintf("{\"username\":\"%s\",\"password\":\"%s\"}",  username,password)
         //  fmt.Println("Create Response:>",s )
         var jsonStr = []byte(s);
-        url := "http://172.22.20.175:80/users/login"
+        url := "http://172.22.27.167:80/users/login"
         return callAPI(url,jsonStr);
 }
 
@@ -208,7 +208,7 @@ func frsCreateUser(sessionId string, id string,file string) (response string){
             sessionId,id,id,encoded)
       //    fmt.Println("Create Response:>",s )
         var jsonStr = []byte(s);
-        url := "http://172.22.20.175:80/frs/cgi/createperson"
+        url := "http://172.22.27.167:80/frs/cgi/createperson"
         return callAPI(url,jsonStr);
 }
 
@@ -224,7 +224,7 @@ func frsVerify(sessionId string,file string) (response string){
             sessionId,encoded)
       //    fmt.Println("Create Response:>",s )
         var jsonStr = []byte(s);
-        url := "http://172.22.20.175:80/frs/cgi/verifyface"
+        url := "http://172.22.27.167:80/frs/cgi/verifyface"
         return callAPI(url,jsonStr);
 }
 
